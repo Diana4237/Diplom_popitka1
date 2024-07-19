@@ -17,7 +17,14 @@ namespace Diplom_popitka1.Controllers
         {
             return View();
         }
-
+        public IActionResult Requarments()
+        {
+            return View();
+        }
+        public IActionResult AddMoto()
+        {
+            return View();
+        }
         public IActionResult Index()
         {
             return View();
