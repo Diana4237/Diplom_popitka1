@@ -1,0 +1,94 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    
+}
+
+
+<div style ="width:90%;">
+    <table class="t">
+        @for(int i=0;i<10;i++){
+            <tr>
+                @if (i%2 != 0) { 
+                <td class="td1" >
+                <table class="t" style="margin-left:15%;">
+                    <tr>
+                        <td class="td1">
+                            <div class="main_container">
+                                <div class="card">
+                                    <img width="800">
+                                </div>
+
+                                <img width="600" src="https://blog.la-becanerie.com/wp-content/uploads/2018/02/moto.png">
+                            </div>
+                        </td>
+                        <td class="td1">
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td>
+                                        <p style="color:#fff;">
+                                            hello drtgvbjjjkkkk
+                                        </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p style="color:#fff;">
+                                            hello drtgvbjjjkkkk
+                                        </p>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+                }
+                @if (i % 2 == 0)
+                {
+                    
+                    <td>
+                        <table class="t" style="margin-left:15%;">
+                    <tr>
+                        <td>
+                            <div>
+                                <table class="t">
+                                    <tr>
+                                        <td>
+                                            <p style="color:#fff;">
+                                                hello drtgvbjjjkkkk
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p style="color:#fff;">
+                                                hello drtgvbjjjkkkk
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="main_container">
+                                <div class="card2">
+                                    <img width="800" src="https://www.patrickdaigleflooring.com/wp-content/uploads/2017/12/man-installing-hardwood-floor.jpeg">
+                                </div>
+
+                                <img width="600" src="https://blog.la-becanerie.com/wp-content/uploads/2018/02/moto.png">
+                            </div>
+
+                           
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            }
+        </tr>
+        }
+    </table>
+</div>

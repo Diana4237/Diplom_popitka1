@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Diplom_popitka1</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Diplom_popitka1.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header id="header_main">
+        <table>
+            <tr>
+                <td>
+                    <img style="margin-left:40px;margin-right:40px;" height="160" src="/images/logo.jpg" />
+                </td>
+
+                <td>
+                    <table style="width:100%;padding: 10px;">
+                        <tr>
+                            <td style="text-align:center;padding: 10px;">
+                                <p style="color:#fff; font-size:20px;">Режим работы:</p>
+                            </td>
+                            <td>
+                                <p style="color:#fff; font-size:20px;">Пн-Пт с 10:00 до 19:00</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:center;">
+                                <p style="color:#fff; font-size:20px;">Телефон:</p>
+                            </td>
+                            <td>
+                                <p style="color:#fff; font-size:20px;">+7(900)000-00-00</p>
+                            </td>
+                        </tr>
+                       
+                    </table>
+                   
+                </td>
+            </tr>
+        </table>
+        <ul id="navbar">
+            <li><a href="@Url.Action("Index", "Home")">Главная</a></li>
+            <li><a href="@Url.Action("About_company", "Home")">О компании</a></li>
+           
+        </ul>
+    </header>
+    <div class="container">
+        <main role="main" >
+            @RenderBody()
+        </main>
+    </div>
+
+   @* <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - Diplom_popitka1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>*@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

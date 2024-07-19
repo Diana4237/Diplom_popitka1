@@ -1,0 +1,111 @@
+td {
+    padding:0;
+    margin:0;
+}
+#header_main {
+    background: #1d1d1d;
+    width: 100%;
+    text-decoration-color: #fff
+}
+
+#navbar {
+    margin: 0;
+    padding-left: 40px;
+    list-style-type: none;
+    border: 2px solid #FFFFFF;
+    width: 100%;
+   
+    background-color: #FFFFFF;
+}
+
+    #navbar li {
+        display: inline;
+        text-decoration: none;
+        font-weight: bold;
+        display: inline-block;
+        padding:0px 10px 0px 10px;
+    }
+
+    #navbar a {
+        color: #000;
+        text-shadow: 1px 1px 1px #FF8A00;
+        padding: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size:22px;
+        display: inline-block;
+        border-bottom: 5px solid #FFFFFF;
+    }
+
+        #navbar a:hover {
+            border-bottom: 5px solid #FF8A00;
+        }
+
+.main_container {
+    position: relative; /*относительное позиционирование*/
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; /*разрешен перенос элементов на новую строку*/
+    justify-content: center;
+    align-items: center;
+    width: 150px; /*ширина контейнера*/
+    gap: 12px 0; /*промежуток между столбцами в сетке*/
+    background: gray;
+}
+
+    .main_container .card {
+        background: lightgray;
+        position: relative;
+        /* width: 50%; ширина блока*/
+        height: 200px; /*высота блока*/
+        overflow: hidden;
+        margin: 0 0px;
+        clip-path: polygon(0 100%, 0 0, 100% 100%);
+    }
+
+    .main_container .card2 {
+        background: lightgray;
+        position: relative;
+        /*width: 50%; /*ширина блока*/
+        height: 200px; /*высота блока*/
+        overflow: hidden;
+        margin: 0 0px;
+        clip-path: polygon(100% 0, 100% 100%, 0 100%);
+    }
+
+.main_container .card img {
+    object-fit: contain;
+}
+
+.main_container img {
+    object-fit: contain;
+}
+
+.main_container .card:nth-child(1) {
+    clip-path: polygon(0 100%, 0 0, 100% 100%); /*фигурга треугольник*/
+}
+
+    .main_container :nth-child(2) {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    .main_container .card img {
+        transition: 0.5s;
+    }
+
+    .main_container .card:hover img {
+        transform: scale(1.5);
+    }/*масштабирование при наведении*/
+.t {
+    background: gray;
+    width: 100%;
+}
+
+.td1 {
+    width: 50%;
+}

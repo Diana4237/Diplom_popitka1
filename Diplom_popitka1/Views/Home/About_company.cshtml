@@ -1,0 +1,165 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .container {
+            position: relative;
+            text-align: left;
+            color: white;
+        }
+
+        .image {
+            width: 100%;
+            height: 700px;
+        }
+
+        .text {
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            transform: translate(0, -50%);
+            font-size: 55px;
+            width:70%;
+            font-weight:bold;
+        }
+
+        .button {
+            position: absolute;
+            top: 80%;
+            left: 10%;
+            transform: translate(0, -50%);
+            display: flex;
+        }
+
+            .button button {
+                margin-right: 5px;
+                padding: 10px 30px;
+                font-size: 16px;
+            }
+
+        .text-field {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        div.mainContent {
+            position: center;
+            width: 100%;
+            height: 100%;
+        }
+        .label1{
+            width: 50%;
+            color: black;
+            margin-top: 15%;
+            margin-left: 5%;
+            margin-bottom: 15%;
+            text-align: left;
+            font-size:20px;
+        }
+        .btn1{
+            background: #F98404;
+            border-radius:35px;
+            font-weight: bold;
+            
+        }
+
+        .btn2 {
+            background-color: transparent;
+            border-radius: 35px;
+            border-color:white;
+            color:white;
+            font-weight:bold;
+        }
+
+
+
+
+
+
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .gallery {
+            display: flex;
+            overflow: hidden;
+            width: 80%;
+            max-width: 800px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .gallery-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item {
+            min-width: 100%;
+        }
+
+            .gallery-item img {
+                width: 100%;
+                height: auto;
+                display: block;
+            }
+
+        .buttons {
+            margin-top: 20px;
+        }
+
+            .buttons button {
+                padding: 10px 20px;
+                margin: 0 10px;
+                border: none;
+                background-color: #333;
+                color: white;
+                cursor: pointer;
+                border-radius: 5px;
+                transition: background-color 0.3s ease;
+            }
+
+                .buttons button:hover {
+                    background-color: #555;
+                }
+    </style>
+</head>
+<body>
+ 
+    <div class="mainContent">
+      <div class="container">
+        <img src="https://atvexpert.ru/upload/iblock/78d/vpg6yql4di25jy6a6xjk3angsw2dxpre.jpg" alt="Эндуро-мотоцикл" class="image">
+        <div class="text">Сервисный центр SLOT по ремонту эндуро в Казани</div>
+        <div class="button">
+                <button class="btn1">Подать заявку</button>
+                <button class="btn2">Услуги и цены</button>
+        </div>
+      </div>
+        <label class="label1">
+            О КОМПАНИИ
+            <br /><br /><br />
+        Наша команда опытных механиков прошла подготовку по работе со многими марками 
+        и моделями эндуро-мотоциклов. Мы используем только высококачественные запчасти 
+        и новейшее оборудование, чтобы гарантировать, что ваш мотоцикл будет отремонтирован 
+        в соответствии с наивысшими стандартами.
+       </label>
+        
+           
+    </div>
+</body>
+</html>
