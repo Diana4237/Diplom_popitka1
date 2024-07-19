@@ -53,6 +53,7 @@
             position: center;
             width: 100%;
             height: 100%;
+            background:white;
         }
         .label1{
             width: 50%;
@@ -84,59 +85,7 @@
 
 
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .gallery {
-            display: flex;
-            overflow: hidden;
-            width: 80%;
-            max-width: 800px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            position: relative;
-        }
-
-        .gallery-track {
-            display: flex;
-            transition: transform 0.5s ease;
-        }
-
-        .gallery-item {
-            min-width: 100%;
-        }
-
-            .gallery-item img {
-                width: 100%;
-                height: auto;
-                display: block;
-            }
-
-        .buttons {
-            margin-top: 20px;
-        }
-
-            .buttons button {
-                padding: 10px 20px;
-                margin: 0 10px;
-                border: none;
-                background-color: #333;
-                color: white;
-                cursor: pointer;
-                border-radius: 5px;
-                transition: background-color 0.3s ease;
-            }
-
-                .buttons button:hover {
-                    background-color: #555;
-                }
+       
     </style>
 </head>
 <body>
@@ -158,8 +107,147 @@
         и новейшее оборудование, чтобы гарантировать, что ваш мотоцикл будет отремонтирован 
         в соответствии с наивысшими стандартами.
        </label>
-        
+
+
+        <style>
+            body {
+                font-family: 'Roboto', sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .otz{
+                display: flex;
+                overflow: hidden;
+                width: 100%;
+               justify-content:center;
+                position: relative;
+                align-items:center;
+                margin:0 auto;
+            }
+            .gallery {
+                display: flex;
+                overflow: hidden;
+                width: 80%;
+                max-width: 800px;
+               
+                position: center;
+                align-content:center;
+                align-items:center;
+            }
+
+            .gallery-track {
+                display: flex;
+                transition: transform 0.5s ease;
+                width: calc(100% * 8); 
+            }
+            .gallery-item {
+            min-width: calc(100% / 4); 
+            }
+            .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
            
+            }
+          
+            .buttons {
+                position: absolute; /* Абсолютное позиционирование для размещения кнопок по бокам */
+                top: 50%; /* Размещение по вертикали посередине блока галереи */
+                transform: translateY(-50%);
+            }
+            .buttons button {
+                padding: 10px 20px;
+                border: none;
+                background-color: #333;
+                color: white;
+                cursor: pointer;
+                border-radius: 5px;
+                transition: background-color 0.3s ease;
+            }
+
+                .buttons button:hover {
+                    background-color: #555;
+                }
+        </style>
+        <div class="otz">
+            <div class="gallery">
+                <div class="gallery-track">
+                    <!-- Repeat these gallery-item blocks for each image -->
+                    <div class="gallery-item">
+                        <img src="~/images/otz1.JPG" alt="Название Мотоцикла 1">
+                    </div>
+                <div class="gallery-item">
+                    <img src="https://pngicon.ru/file/uploads/mototsikl-suzuki.png" alt="Название Мотоцикла 2">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://deswal.ru/moto/yamaha/1600-1200/00000199.jpg" alt="Название Мотоцикла 3">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://hdpic.club/uploads/posts/2022-01/1642021701_36-hdpic-club-p-mototsikla-na-belom-fone-51.png" alt="Название Мотоцикла 1">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://pngicon.ru/file/uploads/mototsikl-suzuki.png" alt="Название Мотоцикла 2">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://deswal.ru/moto/yamaha/1600-1200/00000199.jpg" alt="Название Мотоцикла 3">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://hdpic.club/uploads/posts/2022-01/1642021701_36-hdpic-club-p-mototsikla-na-belom-fone-51.png" alt="Название Мотоцикла 1">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://pngicon.ru/file/uploads/mototsikl-suzuki.png" alt="Название Мотоцикла 2">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://deswal.ru/moto/yamaha/1600-1200/00000199.jpg" alt="Название Мотоцикла 3">
+                </div>
+                    <!-- Repeat this block for each image -->
+                </div>
+        </div>
+        <div class="buttons" style="left: 0;">
+                <button id="prev"><</button>
+        </div>
+        <div class="buttons" style="right: 0;">
+                <button id="next">></button>
+    </div>
+        </div>
+            <script>
+                const galleryTrack = document.querySelector('.gallery-track');
+                const items = document.querySelectorAll('.gallery-item');
+                const prevButton = document.getElementById('prev');
+                const nextButton = document.getElementById('next');
+                let currentIndex = 0;
+
+                // Clone first and last elements for smooth animation
+                const firstClone = items[0].cloneNode(true);
+                const lastClone = items[items.length - 1].cloneNode(true);
+
+                galleryTrack.appendChild(firstClone);
+                galleryTrack.insertBefore(lastClone, items[0]);
+
+                function updateGallery() {
+                    const offset = -currentIndex * (100 / 4); // Move by one image width
+                    galleryTrack.style.transform = `translateX(${offset}%)`;
+                }
+
+                prevButton.addEventListener('click', () => {
+                    if (currentIndex <= 0) return; // Prevent negative index
+                    currentIndex--;
+                    updateGallery();
+                });
+
+                nextButton.addEventListener('click', () => {
+                    if (currentIndex >= items.length - 4) return; // Show 4 images at a time
+                    currentIndex++;
+                    updateGallery();
+                });
+
+                updateGallery();
+            </script>
+
     </div>
 </body>
 </html>
