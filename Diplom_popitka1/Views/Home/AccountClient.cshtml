@@ -1,9 +1,63 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model Diplom_popitka1.Models.Clients
+@model List<MotorcyclesToClient>
 @{
     ViewData["Title"] = "Акаунт";
     Layout = null;
 }
-<label>client^@Model.Fullname</label>
+<style>
+    .underline {
+        /*display: none;*/
+        text-decoration: underline dashed #F98404;
+        text-underline-offset: 10px;
+        margin: 20px;
+    }
+
+    .motorcycle-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .motorcycle-tile {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        width: 200px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .motorcycle-image {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+    }
+
+    .motorcycle-info {
+        padding: 10px;
+        text-align: center;
+    }
+</style>
+<h1 class="underline">@ViewBag.name </h1>
+<p><strong style="margin-left:20px;">@ViewBag.tel</strong></p>
+<div style="justify-content:center;align-items: center;display: flex;">
+<h2 >Мои мотоциклы</h2>
+    <div class="motorcycle-grid">
+        @foreach (var motorcycle in Model)
+        {
+            <a href="@Url.Action("AddMoto", "Home", new { id = motorcycle.IdMotoCl })" class="motorcycle-tile">
+                <img src="@motorcycle.PhotoMoto" alt="Фото @motorcycle.Model" class="motorcycle-image" />
+                <div class="motorcycle-info">
+                    <h3>@motorcycle.Model</h3>
+                   @* <p>Год: @motorcycle.YearRelease.ToString("yyyy")</p>
+                    <p>Пробег: @motorcycle.Mileage км</p>*@
+                </div>
+            </a>
+        }
+    </div>
+</div>

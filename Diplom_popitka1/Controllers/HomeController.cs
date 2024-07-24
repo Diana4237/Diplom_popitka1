@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 using System.Diagnostics;
+using System.Dynamic;
 using System.Net;
 
 namespace Diplom_popitka1.Controllers
@@ -13,7 +14,7 @@ namespace Diplom_popitka1.Controllers
 
         public HomeController(diplom_popitca1Context context)
         {
-            _context = context;
+             _context = context;
         }
 
         public IActionResult About_company()
@@ -64,7 +65,7 @@ namespace Diplom_popitka1.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult RegistrationClient(string name,string tel,string password) 
+        public IActionResult RegistrationClient(string name, string tel, string password)
         {
             foreach (var entity in _context.ChangeTracker.Entries())
             {
@@ -117,29 +118,37 @@ namespace Diplom_popitka1.Controllers
                     entity.Reload();
                 }
             }
-            Logining user = _context.Logining.SingleOrDefault(user => user.Password == password ) ?? new Logining();
+            Logining user = _context.Logining.SingleOrDefault(user => user.Password == password) ?? new Logining();
             if (user == null)
             {
                 return View("~/Views/Home/Authorization.cshtml");
             }
-            else { 
-               if(user.IdRole == 1)
-               {
-                Clients loginClient = _context.Clients.SingleOrDefault(client => client.IdClient == user.IdLoginUser) ?? new Clients();
+            else
+            {
+                if (user.IdRole == 1)
+                {
+                    Clients loginClient = _context.Clients.SingleOrDefault(client => client.IdClient == user.IdLoginUser) ?? new Clients();
                     if (loginClient != null)
                     {
-                        if (loginClient.Telephone == tel) 
+                        if (loginClient.Telephone == tel)
                         {
-                            return View("~/Views/Home/AccountClient.cshtml", loginClient);
+                            //dynamic mymodel = new ExpandoObject();
+                            //mymodel.Clients = loginClient;
+                            List<MotorcyclesToClient> mots = _context.MotorcyclesToClient
+            .Where(m => m.IdClient == loginClient.IdClient)
+            .ToList();
+                            ViewBag.name = loginClient.Fullname; ViewBag.tel = tel;
+                            // mymodel.MotocycleToClient = mots;
+                            return View("~/Views/Home/AccountClient.cshtml", mots);
                         }
-                        
+
                     }
                     return View("~/Views/Home/Authorization.cshtml");
                 }
-               else
-               {
-                return View("~/View/Home/AccountMechanic.cshtml");
-               }
+                else
+                {
+                    return View("~/View/Home/AccountMechanic.cshtml");
+                }
             }
 
         }

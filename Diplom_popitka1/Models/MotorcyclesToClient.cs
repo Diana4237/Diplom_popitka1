@@ -19,6 +19,7 @@ namespace Diplom_popitka1.Models
         public DateTime? YearRelease { get; set; }
         public int? Mileage { get; set; }
         public int? IdClient { get; set; }
+        public byte[] PhotoMoto { get; set; }
 
         public virtual Clients IdClientNavigation { get; set; }
         public virtual ICollection<RepairRequests> RepairRequests { get; set; }
