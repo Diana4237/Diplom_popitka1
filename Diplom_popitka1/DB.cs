@@ -16,7 +16,7 @@ namespace Diplom_popitka1
         {
             services.AddOptions();
             string connection = Configuration.GetConnectionString("DefaultConnection");
-           services.AddDbContext<SLOTContext>(options => options.UseSqlServer(connection));
+             services.AddDbContext<diplom_popitca1Context>(options => options.UseSqlServer(connection));
 
             services.AddMvc();
 
@@ -46,7 +46,7 @@ namespace Diplom_popitka1
             app.UseCookiePolicy();
             /*app.MapGet("/", () => { });*/
 
-            var dbContext = serviceProvider.GetService<SLOTContext>();
+            var dbContext = serviceProvider.GetService<diplom_popitca1Context>();
             SampleData.Initialize(dbContext, env);
         }
     

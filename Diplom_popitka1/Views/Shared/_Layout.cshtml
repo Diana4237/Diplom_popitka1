@@ -41,23 +41,16 @@
             </tr>
         </table>
         <ul id="navbar">
-            <li><a href="@Url.Action("Index", "Home")">Главная</a></li>
-            <li><a href="@Url.Action("About_company", "Home")">О компании</a></li>
+            <li><a href="@Url.Action("About_company", "Home")">Главная</a></li>
+            <li><a href="@Url.Action("Index", "Home")">Аккаунт</a></li>
             <li><a href="@Url.Action("Requarments", "Home")">Заявки</a></li>
             <li><a href="@Url.Action("AddMoto", "Home")">Аккаунт+</a></li>
         </ul>
     </header>
-    @*<div class="container">*@
         <main role="main" >
             @RenderBody()
         </main>
-    @*</div>*@
-
-   @* <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - Diplom_popitka1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>*@
+   
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

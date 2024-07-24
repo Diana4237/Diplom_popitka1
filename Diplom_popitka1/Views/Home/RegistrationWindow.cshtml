@@ -1,0 +1,26 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<form class="AddPac" method="post" action="@Url.Action("RegistrationClient","Home")">
+
+    <table class="tab" height="130">
+        <tr>
+            <td><br>Имя:</td>
+            <td><input type="text" name="name" /> </td>
+        </tr>
+
+        <tr>
+            <td><br>Телефон:</td>
+            <td><input type="text" name="tel" /> </td>
+        </tr>
+
+
+        <tr>
+            <td><br>Пароль:</td>
+            <td><input type="text" name="password" /></td>
+        </tr>
+    </table>
+    <center> <input type="submit" value="Зарегистрироваться" /> </center>
+</form>

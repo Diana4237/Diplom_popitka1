@@ -7,13 +7,13 @@ using System.Collections.Generic;
 
 namespace Diplom_popitka1.Models
 {
-    public partial class Tire
+    public partial class Logining
     {
-        public int IdTire { get; set; }
-        public string NameTire { get; set; }
-        public int? Quantity { get; set; }
-        public decimal? Cost { get; set; }
-        public string Color { get; set; }
-        public bool? WithCamera { get; set; }
+        public int IdLoginUser { get; set; }
+        public string Password { get; set; }
+        public int? IdUser { get; set; }
+        public int? IdRole { get; set; }
+
+        public virtual Roles IdRoleNavigation { get; set; }
     }
 }

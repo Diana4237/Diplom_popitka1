@@ -7,12 +7,10 @@ using System.Collections.Generic;
 
 namespace Diplom_popitka1.Models
 {
-    public partial class SparePart
+    public partial class TakeMotoToWork
     {
-        public int IdSparePart { get; set; }
-        public string NameSparePart { get; set; }
-        public int? Quantity { get; set; }
-        public decimal? Cost { get; set; }
-        public string Color { get; set; }
+        public int IdTakemoto { get; set; }
+        public string Model { get; set; }
+        public string Mileage { get; set; }
     }
 }

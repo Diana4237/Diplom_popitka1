@@ -7,14 +7,10 @@ using System.Collections.Generic;
 
 namespace Diplom_popitka1.Models
 {
-    public partial class Accessoirie
+    public partial class Services
     {
-        public int IdAccessoirie { get; set; }
-        public string NameAccessoirie { get; set; }
-        public int? Quantity { get; set; }
+        public int IdService { get; set; }
+        public string Name { get; set; }
         public decimal? Cost { get; set; }
-        public int? IdTypeAccessoiries { get; set; }
-
-        public virtual TypeAccessoiries IdTypeAccessoiriesNavigation { get; set; }
     }
 }
