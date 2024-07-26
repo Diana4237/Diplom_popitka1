@@ -6,16 +6,58 @@
     ViewData["Title"] = "Акаунт";
 }
 
-<h1 class="underline">@ViewBag.name </h1>
+<h1 class="underline">@ViewBag.name</h1>
+<p><strong style="margin-left:20px;">@ViewBag.tel</strong></p>
+
+<div class="header-container">
+    <h2 class="header-title">Мои мотоциклы</h2>
+    <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("AddMoto", "Home", new { id = 1 })'">Добавить мотоцикл</button>
+</div>
+
+<div class="motorcycle-grid">
+    @foreach (var motorcycle in Model)
+    {
+        var base64 = Convert.ToBase64String(motorcycle.PhotoMoto);
+        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+        <div class="motorcycle-tile">
+            <a href="@Url.Action("ThisMoto", "Home", new { id = motorcycle.IdMotoCl })" class="motorcycle-tile">
+            <img src="@imgSrc" alt="Фото @motorcycle.Model" class="motorcycle-image" />
+            <div class="motorcycle-info">
+                <h3>@motorcycle.Model</h3>
+            </div>
+            </a>
+        </div>
+    }
+</div>
+
 <style>
     .underline {
-        /*display: none;*/
         text-decoration: underline dashed #F98404;
         text-underline-offset: 10px;
         margin: 20px;
     }
 
+    .header-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .header-title {
+        margin: 0;
+    }
+
+    .btn-primary {
+        position: absolute;
+        right: 0;
+        background-color: #F98404;
+        color: black;
+    }
+
     .motorcycle-grid {
+        margin: auto;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
@@ -31,6 +73,7 @@
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         text-decoration: none;
         color: inherit;
+        margin-bottom: 20px;
     }
 
     .motorcycle-image {
@@ -44,22 +87,3 @@
         text-align: center;
     }
 </style>
-<p><strong style="margin-left:20px;">@ViewBag.tel</strong></p>
-<div style="justify-content:center;align-items: center;display: flex;">
-<h2 >Мои мотоциклы</h2>
-    <button type="button" class="btn btn-primary" style="background-color: #F98404; color: black;" 
-    onclick="location.href = '@Url.Action("AddMoto", "Home", new { id = 1 })'">Добавить мотоцикл</button>
-    <div class="motorcycle-grid">
-        @foreach (var motorcycle in Model)
-        {
-            <a href="@Url.Action("AddMoto", "Home", new { id = motorcycle.IdMotoCl })" class="motorcycle-tile">
-                <img src="@motorcycle.PhotoMoto" alt="Фото @motorcycle.Model" class="motorcycle-image" />
-                <div class="motorcycle-info">
-                    <h3>@motorcycle.Model</h3>
-                   @* <p>Год: @motorcycle.YearRelease.ToString("yyyy")</p>
-                    <p>Пробег: @motorcycle.Mileage км</p>*@
-                </div>
-            </a>
-        }
-    </div>
-</div>

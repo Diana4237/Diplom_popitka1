@@ -8,6 +8,8 @@
     var loginClient = serializedClient != null ? JsonConvert.DeserializeObject<Clients>(serializedClient) : null;
     var serializedMoto = Context.Session.GetString("Motorcycles");
     var motoList = serializedMoto != null ? JsonConvert.DeserializeObject<List<TakeMotoToWork>>(serializedMoto) : null;
+    var serializedThisMoto = Context.Session.GetString("ThisMotorcycle");
+    var mot = serializedThisMoto != null ? JsonConvert.DeserializeObject<MotorcyclesToClient>(serializedThisMoto) : null;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -67,6 +69,38 @@
             font-weight: bold;
             margin: 20px auto;
         }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.25s;
+        }
+
+        .image-container {
+            position: relative;
+            display: inline-block;
+        }
+
+            .image-container img {
+                display: block;
+            }
+
+            .image-container:hover .overlay {
+                opacity: 0.3;
+            }
+
+        .overlay img {
+            width: 60px; /* Adjust the size as needed */
+            height: 60px; /* Adjust the size as needed */
+        }
     </style>
 
 </head>
@@ -75,50 +109,108 @@
     <p><strong style="margin-left:20px;">@loginClient?.Telephone</strong></p>
     <section class="mycontainer">
         
-        <form action="@Url.Action("AddMoto","Home")" method="post">
-            <div class="imageForm">
-                <table><tr><td >
-                            <img src="~/images/addMot.JPG" alt="Example Image" />
-                </td>
-                        <td>
-                            <table>
-                                <tr>
-                                    <td> <label for="fullname" class="labelContainer">Марка:</label></td>
-                                    <td> <select name="model" id="model">
-                                           @foreach (var modele in motoList)
-                                           {
-                                            <option >@modele.Model</option>
-                                           }
-                                        </select></td>
-                                   @* <td>  <input type="text" name="model" id="model" class="inpMoto" /></td>*@
-                                </tr>
-                                <tr>
-                                    <td> <label for="yearOfRelease" class="labelContainer">Год выпуска:</label></td>
-                                    <td>  <input type="text" name="year" id="year" class="inpMoto" /></td>
-                                </tr>
-                                <tr>
-                                    <td> <label for="mileage" class="labelContainer">Пробег:</label></td>
-                                    <td>  <input type="number" name="mileage" id="mileage" class="inpMoto" /></td>
-                                </tr>
-                                <tr>
-                                    <td> <label for="photo" class="labelContainer">Фото:</label></td>
-                                    <td><input type="file" name="photo" class="AccountInp" accept=".jpg, .jpeg, .png" /></td>
-                                </tr>
-                             </table>
-                           
-                           
-
-                        </td>
-                </tr></table>
-                
-
-                <!-- Input Fields -->
-               
-
-                <!-- Submit Button -->
-                <button type="submit" class="btn1">Сохранить</button>
-            </div>
-        </form>
+        
+                    
+         @if (mot != null)
+         {
+            <form action="@Url.Action("EditMoto","Home")" method="post" enctype="multipart/form-data">
+                <div class="imageForm">
+                    <table>
+                        <tr>
+                            <td>
+                               @{ var base64 = Convert.ToBase64String(mot.PhotoMoto);
+                                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                               }
+                                <input type="file" id="photo" name="photo" style="display: none;" />
+                               
+                                <div class="image-container" onclick="document.getElementById('photo').click();" style="cursor: pointer;">
+                                    <img src="@imgSrc" alt="Example Image" />
+                                    <div class="overlay">
+                                        <img src="https://cdn.mywebicons.ru/i/webp/95c9ef4184e7e3ba34ce00ffd0ae2747.webp" alt="Overlay Image" />
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td> <label for="fullname" class="labelContainer">Марка:</label></td>
+                                        <td>
+                                            <select name="model" id="model">
+                                                @foreach (var modele in motoList)
+                                                {
+                                                    <option>@modele.Model</option>
+                                                }
+                                            </select>
+                                        </td>
+                                      
+                                    </tr>
+                                    <tr>
+                                        <td> <label for="yearOfRelease" class="labelContainer">Год выпуска:</label></td>
+                                        <td>  <input type="text" name="year" id="year" class="inpMoto" value="@mot.YearRelease?.Year" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td> <label for="mileage" class="labelContainer">Пробег:</label></td>
+                                        <td>  <input type="number" name="mileage" id="mileage" class="inpMoto" value="@mot.Mileage" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td> <label for="photo" class="labelContainer">Фото:</label></td>
+                                        <td><input type="file" name="photo" class="AccountInp" accept=".jpg, .jpeg, .png" /></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                    <button type="submit" class="btn1">Сохранить</button>
+                </div>
+            </form>
+         }
+         else
+         {
+                            <form action="@Url.Action("AddMoto","Home")" method="post" enctype="multipart/form-data">
+                                <div class="imageForm">
+                                    <table>
+                                        <tr>
+                            <td>
+                                <input type="file" id="photo" name="photo" style="display: none;" />
+                                <div class="image-container" onclick="document.getElementById('photo').click();" style="cursor: pointer;">
+                                <img src="~/images/addMot.JPG" alt="Example Image" />
+                                    <div class="overlay">
+                                        <img src="https://cdn.mywebicons.ru/i/webp/95c9ef4184e7e3ba34ce00ffd0ae2747.webp" alt="Overlay Image" />
+                                    </div>
+                                </div>
+                                </td>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td> <label for="fullname" class="labelContainer">Марка:</label></td>
+                                        <td>
+                                            <select name="model" id="model">
+                                                @foreach (var modele in motoList)
+                                                {
+                                                    <option>@modele.Model</option>
+                                                }
+                                            </select>
+                                        </td>
+                                        @* <td>  <input type="text" name="model" id="model" class="inpMoto" /></td>*@
+                                    </tr>
+                                    <tr>
+                                        <td> <label for="yearOfRelease" class="labelContainer">Год выпуска:</label></td>
+                                        <td>  <input type="text" name="year" id="year" class="inpMoto" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td> <label for="mileage" class="labelContainer">Пробег:</label></td>
+                                        <td>  <input type="number" name="mileage" id="mileage" class="inpMoto" /></td>
+                                    </tr>
+                                   
+                                </table>
+                                </td>
+                                        </tr>
+                                    </table>
+                            <button type="submit" class="btn1">Добавить</button>
+                        </div>
+                    </form>
+         }     
     </section>
 </body>
 </html>
