@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Dynamic;
 using System.Net;
 using System.Globalization;
+using Microsoft.EntityFrameworkCore;
 
 namespace Diplom_popitka1.Controllers
 {
@@ -42,8 +43,25 @@ namespace Diplom_popitka1.Controllers
             HttpContext.Session.SetString("Motorcycles", Newtonsoft.Json.JsonConvert.SerializeObject(models));
             return View();
         }
+        public IActionResult DelMoto(int id) 
+        {
+            var motorcycle = _context.MotorcyclesToClient.Find(id);
+            if (motorcycle != null)
+            {
+                _context.MotorcyclesToClient.Remove(motorcycle);
+                _context.SaveChanges();
+            }
+            var serializedClient = HttpContext.Session.GetString("ClientLogin");
+            var loginClient = serializedClient != null ? JsonConvert.DeserializeObject<Clients>(serializedClient) : null;
+            List<MotorcyclesToClient> mots = _context.MotorcyclesToClient
+          .Where(m => m.IdClient == loginClient.IdClient)
+          .ToList();
+            ViewBag.name = loginClient.Fullname; ViewBag.tel = loginClient.Telephone;
+            return View("~/Views/Home/AccountClient.cshtml", mots);
+        }
         public IActionResult ThisMoto(int id)
         {
+            //int id
             foreach (var entity in _context.ChangeTracker.Entries())
             {
                 if (entity.Entity != null)
@@ -51,6 +69,7 @@ namespace Diplom_popitka1.Controllers
                     entity.Reload();
                 }
             }
+           // int selectedId = int.Parse(Request.Form["data-id"]);
             MotorcyclesToClient moto = _context.MotorcyclesToClient.FirstOrDefault(m => m.IdMotoCl == id);
             var models = _context.TakeMotoToWork.ToList();
             HttpContext.Session.SetString("Motorcycles", Newtonsoft.Json.JsonConvert.SerializeObject(models));

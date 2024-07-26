@@ -20,12 +20,15 @@
         var base64 = Convert.ToBase64String(motorcycle.PhotoMoto);
         var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
         <div class="motorcycle-tile">
-            <a href="@Url.Action("ThisMoto", "Home", new { id = motorcycle.IdMotoCl })" class="motorcycle-tile">
-            <img src="@imgSrc" alt="Фото @motorcycle.Model" class="motorcycle-image" />
-            <div class="motorcycle-info">
-                <h3>@motorcycle.Model</h3>
-            </div>
+            <a href="@Url.Action("ThisMoto", "Home", new { id = motorcycle.IdMotoCl })" class="motorcycle-tile-link">
+                <img src="@imgSrc" alt="Фото @motorcycle.Model" class="motorcycle-image" />
+                <div class="motorcycle-info">
+                    <h3>@motorcycle.Model</h3>
+                </div>
             </a>
+            <button type="button" class="btn btn-danger btn-sm btn-delete" onclick="location.href = '@Url.Action("DelMoto", "Home", new { id = @motorcycle.IdMotoCl })'">
+                <img src="~/images/trashCan.png" alt="Удалить" />
+            </button>
         </div>
     }
 </div>
@@ -66,6 +69,7 @@
     }
 
     .motorcycle-tile {
+        position: relative;
         border: 1px solid #ddd;
         border-radius: 8px;
         overflow: hidden;
@@ -86,4 +90,26 @@
         padding: 10px;
         text-align: center;
     }
+
+    .motorcycle-tile:hover .btn-delete {
+        display: block;
+    }
+
+    .btn-delete {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        display: none;
+        background: none;
+        border: none;
+        padding: 2px;
+    }
+
+    .btn-delete:hover {
+        background: #F98404; /* Мен`яем фон на в о вашранжевый CSS при наведении */
+    }
+        .btn-delete img {
+            width: 20px;
+            height: 20px;
+        }
 </style>
