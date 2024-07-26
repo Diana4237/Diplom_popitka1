@@ -4,8 +4,9 @@
 @model List<MotorcyclesToClient>
 @{
     ViewData["Title"] = "Акаунт";
-    Layout = null;
 }
+
+<h1 class="underline">@ViewBag.name </h1>
 <style>
     .underline {
         /*display: none;*/
@@ -43,10 +44,11 @@
         text-align: center;
     }
 </style>
-<h1 class="underline">@ViewBag.name </h1>
 <p><strong style="margin-left:20px;">@ViewBag.tel</strong></p>
 <div style="justify-content:center;align-items: center;display: flex;">
 <h2 >Мои мотоциклы</h2>
+    <button type="button" class="btn btn-primary" style="background-color: #F98404; color: black;" 
+    onclick="location.href = '@Url.Action("AddMoto", "Home", new { id = 1 })'">Добавить мотоцикл</button>
     <div class="motorcycle-grid">
         @foreach (var motorcycle in Model)
         {

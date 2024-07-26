@@ -14,6 +14,13 @@ namespace Diplom_popitka1
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache(); // Кэширование в памяти
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(20); // Время простоя сессии
+                options.Cookie.HttpOnly = true; //  Защищает  от  скриптовых  атак
+                options.Cookie.IsEssential = true; //  Включение  в  HTTP-заголовки  Cookie
+            });
             services.AddOptions();
             string connection = Configuration.GetConnectionString("DefaultConnection");
              services.AddDbContext<diplom_popitca1Context>(options => options.UseSqlServer(connection));
@@ -33,6 +40,7 @@ namespace Diplom_popitka1
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+            app.UseSession();
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {

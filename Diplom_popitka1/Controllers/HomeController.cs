@@ -1,6 +1,9 @@
 ﻿using Diplom_popitka1.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor.Compilation;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Dynamic;
 using System.Net;
@@ -27,8 +30,72 @@ namespace Diplom_popitka1.Controllers
         }
         public IActionResult AddMoto()
         {
+            foreach (var entity in _context.ChangeTracker.Entries())
+            {
+                if (entity.Entity != null)
+                {
+                    entity.Reload();
+                }
+            }
+            var models = _context.TakeMotoToWork.ToList();
+            HttpContext.Session.SetString("Motorcycles", Newtonsoft.Json.JsonConvert.SerializeObject(models));
             return View();
         }
+        [HttpPost]
+        public IActionResult AddMoto(string model,string year,int mileage, IFormFile photo)
+        {
+            var serializedClient = HttpContext.Session.GetString("ClientLogin");
+            var loginClient = serializedClient != null ? JsonConvert.DeserializeObject<Clients>(serializedClient) : null;
+            if (photo != null&&model.Length!=0&&year.Length!=0&&mileage!=0)
+            {
+                MotorcyclesToClient motCl = new MotorcyclesToClient
+                {
+                    IdMotoCl = loginClient.IdClient,
+                    Model = model,
+                    YearRelease = Convert.ToDateTime(year),
+                    Mileage = mileage,
+                    PhotoMoto = Photo(photo)
+
+                };
+                _context.MotorcyclesToClient.Add(motCl);
+                _context.SaveChanges();
+            }
+            return View();
+        }
+        public byte[] Photo(IFormFile phot)
+        {
+            using (var target = new MemoryStream())
+            {
+                phot.CopyTo(target);
+                return target.ToArray();
+            }
+        }
+        //[HttpPost]
+        //public IActionResult AddPhotoAcc(IFormFile photo)
+        //{
+        //    if (docId == 0)
+        //    {
+        //        Pacient pac = Db.Pacient.SingleOrDefault(d => d.Id == GlobPat) ?? new Pacient();
+        //        if (photo != null)
+        //        {
+        //            pac.Photo = PhotoTel(photo);
+        //            Db.SaveChanges();
+        //        }
+        //        Pacient pat = Db.Pacient.SingleOrDefault(d => d.Id == GlobPat) ?? new Pacient();
+        //        return View("~/Views/Home/AccountPatient.cshtml", pat);
+        //    }
+        //    else
+        //    {
+        //        Doctors doctors = Db.Doctors.SingleOrDefault(d => d.Id == docId) ?? new Doctors();
+        //        if (photo != null)
+        //        {
+        //            doctors.Photo = PhotoTel(photo);
+        //            Db.SaveChanges();
+        //        }
+        //        Doctors doctor = Db.Doctors.SingleOrDefault(d => d.Id == docId) ?? new Doctors();
+        //        return View("~/Views/Home/Account.cshtml", doctor);
+        //    }
+        //}
         public IActionResult AccountClient()
         {
             return View();
@@ -127,13 +194,13 @@ namespace Diplom_popitka1.Controllers
             {
                 if (user.IdRole == 1)
                 {
-                    Clients loginClient = _context.Clients.SingleOrDefault(client => client.IdClient == user.IdLoginUser) ?? new Clients();
+                    Clients loginClient = _context.Clients.SingleOrDefault(client => client.IdClient == user.IdLoginUser ) ?? new Clients();
                     if (loginClient != null)
                     {
                         if (loginClient.Telephone == tel)
                         {
-                            //dynamic mymodel = new ExpandoObject();
-                            //mymodel.Clients = loginClient;
+                            HttpContext.Session.SetString("ClientLogin", Newtonsoft.Json.JsonConvert.SerializeObject(loginClient));
+                            
                             List<MotorcyclesToClient> mots = _context.MotorcyclesToClient
             .Where(m => m.IdClient == loginClient.IdClient)
             .ToList();

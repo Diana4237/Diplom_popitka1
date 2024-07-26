@@ -1,7 +1,13 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+
+@using Newtonsoft.Json
 @{
+    var serializedClient = Context.Session.GetString("ClientLogin");
+    var loginClient = serializedClient != null ? JsonConvert.DeserializeObject<Clients>(serializedClient) : null;
+    var serializedMoto = Context.Session.GetString("Motorcycles");
+    var motoList = serializedMoto != null ? JsonConvert.DeserializeObject<List<TakeMotoToWork>>(serializedMoto) : null;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -10,6 +16,8 @@
     <title>Text Styling Example</title>
     <!-- Include jQuery library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+   
+   
 
     <!-- Custom stylesheet -->
     <style>
@@ -63,11 +71,11 @@
 
 </head>
 <body>
-    <h1 class="underline">Leonid </h1>
-    <p><strong style="margin-left:20px;">89000000000</strong></p>
+    <h1 class="underline">@loginClient?.Fullname </h1>
+    <p><strong style="margin-left:20px;">@loginClient?.Telephone</strong></p>
     <section class="mycontainer">
         
-        <form action="#" method="post" >
+        <form action="@Url.Action("AddMoto","Home")" method="post">
             <div class="imageForm">
                 <table><tr><td >
                             <img src="~/images/addMot.JPG" alt="Example Image" />
@@ -76,15 +84,25 @@
                             <table>
                                 <tr>
                                     <td> <label for="fullname" class="labelContainer">Марка:</label></td>
-                                    <td>  <input type="text" name="fullname" id="fullname" class="inpMoto" /></td>
+                                    <td> <select name="model" id="model">
+                                           @foreach (var modele in motoList)
+                                           {
+                                            <option >@modele.Model</option>
+                                           }
+                                        </select></td>
+                                   @* <td>  <input type="text" name="model" id="model" class="inpMoto" /></td>*@
                                 </tr>
                                 <tr>
                                     <td> <label for="yearOfRelease" class="labelContainer">Год выпуска:</label></td>
-                                    <td>  <input type="text" name="fullname" id="fullname" class="inpMoto" /></td>
+                                    <td>  <input type="text" name="year" id="year" class="inpMoto" /></td>
                                 </tr>
                                 <tr>
                                     <td> <label for="mileage" class="labelContainer">Пробег:</label></td>
-                                    <td>  <input type="text" name="fullname" id="fullname" class="inpMoto" /></td>
+                                    <td>  <input type="number" name="mileage" id="mileage" class="inpMoto" /></td>
+                                </tr>
+                                <tr>
+                                    <td> <label for="photo" class="labelContainer">Фото:</label></td>
+                                    <td><input type="file" name="photo" class="AccountInp" accept=".jpg, .jpeg, .png" /></td>
                                 </tr>
                              </table>
                            
