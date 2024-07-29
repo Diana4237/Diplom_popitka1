@@ -30,110 +30,12 @@ namespace Diplom_popitka1.Controllers
         {
             return View();
         }
-        public IActionResult AddMoto()
-        {
-            foreach (var entity in _context.ChangeTracker.Entries())
-            {
-                if (entity.Entity != null)
-                {
-                    entity.Reload();
-                }
-            }
-            var models = _context.TakeMotoToWork.ToList();
-            HttpContext.Session.SetString("Motorcycles", Newtonsoft.Json.JsonConvert.SerializeObject(models));
-            return View();
-        }
-        public IActionResult DelMoto(int id) 
-        {
-            var motorcycle = _context.MotorcyclesToClient.Find(id);
-            if (motorcycle != null)
-            {
-                _context.MotorcyclesToClient.Remove(motorcycle);
-                _context.SaveChanges();
-            }
-            var serializedClient = HttpContext.Session.GetString("ClientLogin");
-            var loginClient = serializedClient != null ? JsonConvert.DeserializeObject<Clients>(serializedClient) : null;
-            List<MotorcyclesToClient> mots = _context.MotorcyclesToClient
-          .Where(m => m.IdClient == loginClient.IdClient)
-          .ToList();
-            ViewBag.name = loginClient.Fullname; ViewBag.tel = loginClient.Telephone;
-            return View("~/Views/Home/AccountClient.cshtml", mots);
-        }
-        public IActionResult ThisMoto(int id)
-        {
-            //int id
-            foreach (var entity in _context.ChangeTracker.Entries())
-            {
-                if (entity.Entity != null)
-                {
-                    entity.Reload();
-                }
-            }
-           // int selectedId = int.Parse(Request.Form["data-id"]);
-            MotorcyclesToClient moto = _context.MotorcyclesToClient.FirstOrDefault(m => m.IdMotoCl == id);
-            var models = _context.TakeMotoToWork.ToList();
-            HttpContext.Session.SetString("Motorcycles", Newtonsoft.Json.JsonConvert.SerializeObject(models));
-            HttpContext.Session.SetString("ThisMotorcycle", Newtonsoft.Json.JsonConvert.SerializeObject(moto));
-            return View("~/Views/Home/AddMoto.cshtml");
-        }
-        [HttpPost]
-        public IActionResult EditMoto(string model, string year, int mileage, IFormFile photo)
-        {
-            var serializedThisMoto = HttpContext.Session.GetString("ThisMotorcycle");
-            var mot = serializedThisMoto != null ? JsonConvert.DeserializeObject<MotorcyclesToClient>(serializedThisMoto) : null;
-            if (photo != null) { 
-            mot.PhotoMoto = Photo(photo);
-            }
-            int yeare = DateTime.ParseExact(year, "yyyy", CultureInfo.InvariantCulture).Year;
-            DateTime dateTime = new DateTime(yeare, 1, 1);
-            if (model.Length != 0 && year.Length != 0 && mileage != 0) 
-            {
-                mot.YearRelease = dateTime;
-                mot.Mileage=mileage;
-                mot.Model= model;
-            }
-            _context.SaveChanges();
-            var serializedClient = HttpContext.Session.GetString("ClientLogin");
-            var loginClient = serializedClient != null ? JsonConvert.DeserializeObject<Clients>(serializedClient) : null;
-            List<MotorcyclesToClient> mots = _context.MotorcyclesToClient
-          .Where(m => m.IdClient == loginClient.IdClient)
-          .ToList();
-            ViewBag.name = loginClient.Fullname; ViewBag.tel = loginClient.Telephone;
-            return View("~/Views/Home/AccountClient.cshtml", mots);
-        }
-            [HttpPost]
-        public IActionResult AddMoto(string model,string year,int mileage, IFormFile photo)
-        {
-            var serializedClient = HttpContext.Session.GetString("ClientLogin");
-            var loginClient = serializedClient != null ? JsonConvert.DeserializeObject<Clients>(serializedClient) : null;
-            if (photo != null && model.Length != 0 && year.Length != 0 && mileage != 0)
-            {
-                int yeare = DateTime.ParseExact(year, "yyyy", CultureInfo.InvariantCulture).Year;
-                DateTime dateTime = new DateTime(yeare, 1, 1);
-                MotorcyclesToClient motCl = new MotorcyclesToClient
-                {
-                    IdClient = loginClient.IdClient,
-                    Model = model,
-                    YearRelease = dateTime,
-                    Mileage = mileage,
-                    PhotoMoto = Photo(photo)
 
-                };
-                _context.MotorcyclesToClient.Add(motCl);
-                _context.SaveChanges();
-                List<MotorcyclesToClient> mots = _context.MotorcyclesToClient
-          .Where(m => m.IdClient == loginClient.IdClient)
-          .ToList();
-                ViewBag.name = loginClient.Fullname; ViewBag.tel = loginClient.Telephone;
-                // mymodel.MotocycleToClient = mots;
-                return View("~/Views/Home/AccountClient.cshtml", mots);
-            }
-            else 
-            {
-                return View();
-            }
-           
-        }
+
+
+      //
+
+
         public byte[] Photo(IFormFile phot)
         {
             using (var target = new MemoryStream())
@@ -143,10 +45,7 @@ namespace Diplom_popitka1.Controllers
             }
         }
        
-        public IActionResult AccountClient()
-        {
-            return View();
-        }
+       //
         public IActionResult AccountMechanic()
         {
             return View();
@@ -166,58 +65,12 @@ namespace Diplom_popitka1.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        public IActionResult RegButton_Click() 
-        {
-            return View("~/Views/Home/RegistrationWindow.cshtml");
-        }
+       //
         public IActionResult AuthButton_Click()
         {
             return View("~/Views/Home/AuthorizationWindow.cshtml");
         }
-        public IActionResult RegistrationWindow() 
-        { 
-            return View();
-        }
-        [HttpPost]
-        public IActionResult RegistrationClient(string name, string tel, string password)
-        {
-            foreach (var entity in _context.ChangeTracker.Entries())
-            {
-                if (entity.Entity != null)
-                {
-                    entity.Reload();
-                }
-            }
-            if (name.Length != 0 && tel.Length != 0 && password.Length != 0)
-            {
-                //bool isUnique = !_context.Roles.Any(cli => cli.Name == name);
-                bool isUnique = !_context.Clients.Any(cli => cli.Telephone == tel);
-                if (isUnique)
-                {
-                    Clients newClient = new Clients
-                    {
-                        Fullname = name,
-                        Telephone = tel
-                    };
-                    _context.Clients.Add(newClient);
-                    _context.SaveChanges();
-                    Clients newclient = _context.Clients.SingleOrDefault(cl => cl.Telephone == tel) ?? new Clients();
-                    if (newclient != null)
-                    {
-                        Logining log = new Logining
-                        {
-                            Password = password,
-                            IdRole = 1,
-                            IdUser = newclient.IdClient
-                        };
-                        _context.Logining.Add(log);
-                        _context.SaveChanges();
-                    }
-
-                }
-            }
-            return View("~/Views/Home/AuthorizationWindow.cshtml");
-        }
+       //
         public IActionResult AuthorizationWindow()
         {
             return View();
@@ -253,7 +106,7 @@ namespace Diplom_popitka1.Controllers
             .ToList();
                             ViewBag.name = loginClient.Fullname; ViewBag.tel = tel;
                             // mymodel.MotocycleToClient = mots;
-                            return View("~/Views/Home/AccountClient.cshtml", mots);
+                            return View("~/Views/Client/AccountClient.cshtml", mots);
                         }
 
                     }

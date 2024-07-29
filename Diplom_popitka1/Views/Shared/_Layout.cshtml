@@ -38,14 +38,22 @@
                     </table>
                    
                 </td>
+                <td style="text-align:center;">
+                    @if (ViewContext.RouteData.Values["action"].ToString() != "About_company")
+                    {
+                        <button type="button" class="btn btn-primar" onclick="location.href = '@Url.Action("AddRequest", "Client")'">Подать заявку</button>
+                    }
+                </td>
             </tr>
         </table>
+      
         <ul id="navbar">
             <li><a href="@Url.Action("About_company", "Home")">Главная</a></li>
             <li><a href="@Url.Action("Index", "Home")">Аккаунт</a></li>
             <li><a href="@Url.Action("Requarments", "Home")">Заявки</a></li>
             <li><a href="@Url.Action("AddMoto", "Home")">Аккаунт+</a></li>
         </ul>
+       
     </header>
         <main role="main" >
             @RenderBody()

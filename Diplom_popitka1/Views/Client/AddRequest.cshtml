@@ -1,0 +1,65 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using Newtonsoft.Json
+@{
+    var serializedClient = Context.Session.GetString("ClientLogin");
+    var loginClient = serializedClient != null ? JsonConvert.DeserializeObject<Clients>(serializedClient) : null;
+    var serializedMoto = Context.Session.GetString("MyMotorcycles");
+    var motoList = serializedMoto != null ? JsonConvert.DeserializeObject<List<TakeMotoToWork>>(serializedMoto) : null;
+   
+}
+<div class="header-container">
+    <h2 class="header-title">Заявка</h2>
+    <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("HistoryRequests", "Client")'">История</button>
+</div>
+<form action="@Url.Action("AddMoto","Client")" method="post" enctype="multipart/form-data">
+    <div class="imageForm">
+       
+                    <table>
+                        <tr>
+                            <td> <label for="fullname" class="labelContainer">Марка:</label></td>
+                            <td>
+                                <select name="model" id="model">
+                                    @foreach (var modele in motoList)
+                                    {
+                                        <option>@modele.Model</option>
+                                    }
+                                </select>
+                            </td>
+                            @* <td>  <input type="text" name="model" id="model" class="inpMoto" /></td>*@
+                        </tr>
+                        <tr>
+                            <td> <label for="yearOfRelease" class="labelContainer">Год выпуска:</label></td>
+                            <td>  <input type="text" name="year" id="year" class="inpMoto" /></td>
+                        </tr>
+                        <tr>
+                            <td> <label for="mileage" class="labelContainer">Пробег:</label></td>
+                            <td>  <input type="number" name="mileage" id="mileage" class="inpMoto" /></td>
+                        </tr>
+
+                    </table>
+               
+        <button type="submit" class="btn1">Добавить</button>
+    </div>
+</form>
+<style>
+    .header-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .header-title {
+        margin: 0;
+    }
+
+    .btn-primary {
+        position: absolute;
+        right: 0;
+        background-color: #F98404;
+        color: black;
+    }
+</style>

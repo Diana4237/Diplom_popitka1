@@ -109,3 +109,10 @@ td {
 .td1 {
     width: 50%;
 }
+.btn-primar {
+    position: absolute;
+    right: 0;
+    background-color: #F98404;
+    color: black;
+    
+}

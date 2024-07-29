@@ -11,7 +11,7 @@
 
 <div class="header-container">
     <h2 class="header-title">Мои мотоциклы</h2>
-    <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("AddMoto", "Home", new { id = 1 })'">Добавить мотоцикл</button>
+    <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("AddMoto", "Client", new { id = 1 })'">Добавить мотоцикл</button>
 </div>
 
 <div class="motorcycle-grid">
@@ -20,13 +20,13 @@
         var base64 = Convert.ToBase64String(motorcycle.PhotoMoto);
         var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
         <div class="motorcycle-tile">
-            <a href="@Url.Action("ThisMoto", "Home", new { id = motorcycle.IdMotoCl })" class="motorcycle-tile-link">
+            <a href="@Url.Action("ThisMoto", "Client", new { id = motorcycle.IdMotoCl })" class="motorcycle-tile-link">
                 <img src="@imgSrc" alt="Фото @motorcycle.Model" class="motorcycle-image" />
                 <div class="motorcycle-info">
                     <h3>@motorcycle.Model</h3>
                 </div>
             </a>
-            <button type="button" class="btn btn-danger btn-sm btn-delete" onclick="location.href = '@Url.Action("DelMoto", "Home", new { id = @motorcycle.IdMotoCl })'">
+            <button type="button" class="btn btn-danger btn-sm btn-delete" onclick="location.href = '@Url.Action("DelMoto", "Client", new { id = @motorcycle.IdMotoCl })'">
                 <img src="~/images/trashCan.png" alt="Удалить" />
             </button>
         </div>
