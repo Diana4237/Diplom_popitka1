@@ -26,14 +26,7 @@ namespace Diplom_popitka1.Controllers
         {
             return View();
         }
-        public IActionResult Requarments()
-        {
-            return View();
-        }
-
-
-
-      //
+       
 
 
         public byte[] Photo(IFormFile phot)

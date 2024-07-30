@@ -1,7 +1,9 @@
 ﻿using Diplom_popitka1.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
 using System.Globalization;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Diplom_popitka1.Controllers
 {
@@ -193,13 +195,45 @@ namespace Diplom_popitka1.Controllers
         }
         public IActionResult AddRequest() 
         {
+            
+            foreach (var entity in _context.ChangeTracker.Entries())
+            {
+                if (entity.Entity != null)
+                {
+                    entity.Reload();
+                }
+            }
             var serializedClient = HttpContext.Session.GetString("ClientLogin");
             var loginClient = serializedClient != null ? JsonConvert.DeserializeObject<Clients>(serializedClient) : null;
 
             List<MotorcyclesToClient> mots = _context.MotorcyclesToClient
         .Where(m => m.IdClient == loginClient.IdClient)
         .ToList();
-            return View(mots);
+            HttpContext.Session.SetString("MyMotorcycles", Newtonsoft.Json.JsonConvert.SerializeObject(mots));
+            List<Places> places = _context.Places.ToList();
+            HttpContext.Session.SetString("PlacesOfFailure", Newtonsoft.Json.JsonConvert.SerializeObject(places));
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddRequest(MotorcyclesToClient mot,string problem,IFormFile photo,string selectedValues) 
+        {
+            if (mot != null && problem.Length != 0) 
+            {
+                RepairRequests repairRequests = new RepairRequests 
+                { 
+                    IdMotoCl=mot.IdMotoCl,
+                    Status="Принято в обработку",
+                    Problem=problem,
+                    Report=null,
+                    Places= selectedValues,
+                    Photo=Photo(photo),
+                    IdMechanic=null
+                };
+                _context.RepairRequests.Add(repairRequests);
+                _context.SaveChanges();
+            }
+            //string[] selectedValuesArray = selectedValues.Split(',');
+            return View();
         }
 
     }

@@ -7,42 +7,222 @@
     var loginClient = serializedClient != null ? JsonConvert.DeserializeObject<Clients>(serializedClient) : null;
     var serializedMoto = Context.Session.GetString("MyMotorcycles");
     var motoList = serializedMoto != null ? JsonConvert.DeserializeObject<List<TakeMotoToWork>>(serializedMoto) : null;
-   
-}
-<div class="header-container">
-    <h2 class="header-title">Заявка</h2>
-    <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("HistoryRequests", "Client")'">История</button>
-</div>
-<form action="@Url.Action("AddMoto","Client")" method="post" enctype="multipart/form-data">
-    <div class="imageForm">
-       
-                    <table>
-                        <tr>
-                            <td> <label for="fullname" class="labelContainer">Марка:</label></td>
-                            <td>
-                                <select name="model" id="model">
-                                    @foreach (var modele in motoList)
-                                    {
-                                        <option>@modele.Model</option>
-                                    }
-                                </select>
-                            </td>
-                            @* <td>  <input type="text" name="model" id="model" class="inpMoto" /></td>*@
-                        </tr>
-                        <tr>
-                            <td> <label for="yearOfRelease" class="labelContainer">Год выпуска:</label></td>
-                            <td>  <input type="text" name="year" id="year" class="inpMoto" /></td>
-                        </tr>
-                        <tr>
-                            <td> <label for="mileage" class="labelContainer">Пробег:</label></td>
-                            <td>  <input type="number" name="mileage" id="mileage" class="inpMoto" /></td>
-                        </tr>
+    var serializedPlaces = Context.Session.GetString("PlacesOfFailure");
+    var places = serializedPlaces != null ? JsonConvert.DeserializeObject<List<Places>>(serializedPlaces) : null;
 
-                    </table>
-               
-        <button type="submit" class="btn1">Добавить</button>
+}
+
+   <script>
+    document.querySelector('img').addEventListener('click', function () {
+        document.querySelector('input[type=file]').click();
+    });
+
+    const dropdown = document.querySelector('.dropdown');
+    const dropdownContent = document.querySelector('.dropdown-content');
+
+    // Создать массив для хранения выбранных значений
+    const selectedValues = [];
+
+    // Добавить обработчик событий клика для каждой плитки
+    dropdownContent.querySelectorAll('.tile').forEach((tile) => {
+        tile.addEventListener('click', (event) => {
+            // Получить значение data-value плитки
+            const value = event.target.getAttribute('data-value');
+
+            // Если чекбокс уже установлен, снимите его и удалите значение из массива
+            if (tile.querySelector('input[type=checkbox]').checked) {
+                tile.querySelector('input[type=checkbox]').checked = false;
+                selectedValues.splice(selectedValues.indexOf(value), 1);
+            }
+            // В противном случае установите флажок и добавьте значение в массив
+            else {
+                tile.querySelector('input[type=checkbox]').checked = true;
+                selectedValues.push(value);
+            }
+        });
+    });
+
+    // Отправить выбранные значения в контроллер при отправке формы
+    const form = document.querySelector('form');
+    form.addEventListener('submit', (event) => {
+        // Предотвратить отправку формы по умолчанию
+        event.preventDefault();
+
+        // Установить скрытое поле ввода со значениями data-value
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'selectedValues';
+        input.value = selectedValues.join(',');
+        form.appendChild(input);
+
+        // Отправить форму
+        form.submit();
+    });
+   </script>
+<style>
+    .mcontainer {
+        position: relative;
+        text-align: left;
+        color: white;
+    }
+
+    form {
+        width: 90%;
+        margin: 20px 40px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 10px;
+        color: black;
+    }
+
+    .tab1 {
+        width: 100%;
+    }
+
+    select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+
+    textarea {
+        resize: vertical;
+        width: 100%;
+        height: 150px;
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+
+    .signatures {
+        margin-top: 40px;
+        text-align: right;
+    }
+
+        .signatures p {
+            margin: 0;
+        }
+
+    .btn1 {
+        background: #F98404;
+        border-radius: 35px;
+        font-weight: bold;
+        margin: 10px;
+    }
+
+    
+</style>
+<div class="mcontainer">
+    <div class="header-container">
+    <h2>Заявки</h2>
+    <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("HistoryRequests", "Client")'">История</button>
     </div>
-</form>
+    <form action="#" method="post">
+        <table class="tab1">
+            <tr>
+                <td>
+                    <label for="fullname">Ваш мотоцикл:</label>
+                </td>
+                <td>
+                    <select >
+                        @foreach (var mot in motoList)
+                        {
+                            <option>@mot.Model</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="fullname">Опишите проблему:</label>
+                </td>
+                <td>
+                    <textarea rows="5" cols="30" name="problem" id="problem" required></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="dropdown">
+                        <button id="btn_place">Можете указать где именно поломка?</button>
+                        
+                        <div class="dropdown-content">
+                            @foreach (var place in places)
+                            {
+                                var base64 = Convert.ToBase64String(place.Photo);
+                                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                <a href="#" class="tile" data-value="@place.IdPlace">
+                                    <img src="@imgSrc" alt="@place.Name">
+                                    <input type="checkbox">
+                                </a>
+                            }
+                           
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="file" id="photo" name="photo" style="display: none;" />
+                    <img style="width: 70px; height: 70px;margin-top:20px;" onclick="document.querySelector('input[type=file]').click();" src="/images/photofile.png" />
+                </td>
+            </tr>
+        </table>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+            }
+
+            .dropdown {
+                position: relative;
+                display: inline-block;
+                width:100%;
+            }
+
+            #btn_place{
+                width: 100%;
+            }
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: gray;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+                width: 100%; /* Ширина контейнера для плиток 300 */
+                overflow-y: scroll;
+                max-height: 200px;
+                margin-bottom:20px;
+            }
+
+                .dropdown-content .tile {
+                    display: inline-block;
+                    width: 30%; /* Ширина каждой плитки */
+                    padding: 10px;
+                    text-decoration: none;
+                    color: black;
+                    box-sizing: border-box;
+                }
+
+                    .dropdown-content .tile img {
+                        width: 100%;
+                        height: auto;
+                    }
+
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+        </style>
+
+        <button type="submit" name="submit" class="btn1">Подать заявку</button>
+    </form>
+
+
+</div>
+
 <style>
     .header-container {
         display: flex;
@@ -55,7 +235,6 @@
     .header-title {
         margin: 0;
     }
-
     .btn-primary {
         position: absolute;
         right: 0;
