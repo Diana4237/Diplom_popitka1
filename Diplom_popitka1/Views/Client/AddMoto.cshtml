@@ -175,27 +175,7 @@
                                             <input type="number" name="mileage" id="mileage" class="inpMoto" value="@mot.Mileage" />
                                             <span asp-validation-for="@mot.Mileage" class="text-danger"></span>
                                          </td>
-                                            @* <table>
-                                    <tr>
-                                        <td> <label for="fullname" class="labelContainer">Марка:</label></td>
-                                        <td>
-                                            <select name="model" id="model">
-                                                @foreach (var modele in motoList)
-                                                {
-                                                    <option>@modele.Model</option>
-                                                }
-                                            </select>
-                                        </td>
-                                      
-                                    </tr>
-                                    <tr>
-                                        <td> <label for="yearOfRelease" class="labelContainer">Год выпуска:</label></td>
-                                        <td>  <input type="text" name="year" id="year" class="inpMoto" value="@mot.YearRelease?.Year" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td> <label for="mileage" class="labelContainer">Пробег:</label></td>
-                                        <td>  <input type="number" name="mileage" id="mileage" class="inpMoto" value="@mot.Mileage" /></td>*@
-                                    </tr>
+                                                         </tr>
                                    
                                 </table>
                             </td>
@@ -237,7 +217,7 @@
                                                 }
                                             </select>
                                         </td>
-                                        @* <td>  <input type="text" name="model" id="model" class="inpMoto" /></td>*@
+                                      
                                     </tr>
                                     <tr>
                                         <td> <label for="yearOfRelease" class="labelContainer">Год выпуска:</label></td>

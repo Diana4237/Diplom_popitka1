@@ -18,7 +18,10 @@ function saveNote() {
     document.getElementById('noteInput').value = '';
     document.getElementById('importantNote').checked = false;
 }
-
+function filterRequestsByDate(date) {
+    const form = document.getElementById('noteForm');
+    form.submit();
+}
 function createCalendar(element, year, month) {
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
@@ -58,7 +61,9 @@ function createCalendar(element, year, month) {
         const cell = document.createElement('td');
         cell.textContent = i;
         cell.addEventListener('click', function () {
-            showNoteField();
+            const chosenDate = new Date(year, month, i).toISOString().split('T')[0];
+            document.getElementById('dateChoicen').value = chosenDate;
+            filterRequestsByDate(chosenDate);
         });
         row.appendChild(cell);
     }

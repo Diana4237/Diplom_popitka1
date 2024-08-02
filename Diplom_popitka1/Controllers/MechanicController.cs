@@ -16,17 +16,19 @@ namespace Diplom_popitka1.Controllers
         {
             return View();
         }
+        //public IActionResult SaveNote() { }
         public IActionResult AccountMechanic()
         {
             var serializedMechanic = HttpContext.Session.GetString("MechanicLogin");
             var loginMechanic = serializedMechanic != null ? JsonConvert.DeserializeObject<Mechanics>(serializedMechanic) : null;
             var requests = _context.RepairRequests
          .Where(m => m.IdMechanic == loginMechanic.IdMechanic)
-          .Select(r => new
+          .Select(r => new ViewMechanicAccount
           {
-              Model = _context.MotorcyclesToClient.Where(m => m.IdMotoCl == r.IdMotoCl).Select(m => m.Model).FirstOrDefault()
+              ModelMotoCl = _context.MotorcyclesToClient.Where(m => m.IdMotoCl == r.IdMotoCl).Select(m => m.Model).FirstOrDefault()
           })
          .ToList();
+            ViewBag.name = loginMechanic.Fullname; ViewBag.tel = loginMechanic.Telephone;
             return View(requests);
         }
     }

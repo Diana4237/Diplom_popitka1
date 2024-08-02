@@ -1,9 +1,10 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model List<dynamic>
+@model List<ViewMechanicAccount>
 @{
     ViewData["Title"] = "Акаунт";
+    
 }
 @*<script src="~/js/site.js"></script>*@
 <style>
@@ -36,8 +37,18 @@ input[type="radio"] {
     border: 1px solid #ccc;
     background-color: #fff;
 }
-    </style>
 
+    .underline {
+        text-decoration: underline dashed #F98404;
+        text-underline-offset: 10px;
+        margin: 20px;
+    }
+    </style>
+<h1 class="underline">
+    @ViewData["name"]
+    
+</h1>
+<p><strong style="margin-left:20px;">@ViewData["tel"]</strong></p>
 
 <div class="mcontainer">
     <div class="block" style="background-color: #add8e6;">
@@ -45,18 +56,18 @@ input[type="radio"] {
 
     </div>
     <div class="block" style="background-color: #90ee90;">
-        
-            <form id="noteForm" method="post" action="@Url.Action("SaveNote")">
+
+        <form id="noteForm" method="post" action="@Url.Action("AccountMechanic")">
                 <input type="hidden" name="requestId" id="requestId">
+            <input type="hidden" name="dateChoicen" id="dateChoicen">
                 <div class="radio-group">
-                        @foreach (var request in Model)
-                        {
-                        <label>
+                @foreach (var request in Model)
+                {
+                    <label>
                         <input type="radio" name="option" value="@request.IdRequest" onclick="showNoteField(@request.IdRequest)">
-                               
-                        @request.Model
-                        </label>
-                        }
+                        @request.ModelMotoCl
+                    </label>
+                }
                 </div>
                 <div id="noteField" class="note-field" style="display: none;">
                     <h3>Заметки</h3>

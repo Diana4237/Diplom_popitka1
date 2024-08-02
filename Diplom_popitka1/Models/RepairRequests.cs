@@ -16,12 +16,14 @@ namespace Diplom_popitka1.Models
 
         public int IdRequest { get; set; }
         public int? IdMotoCl { get; set; }
-        public string Status { get; set; }
-        public string Problem { get; set; }
-        public string Report { get; set; }
-        public string Places { get; set; }
-        public byte[] Photo { get; set; }
+        public string? Status { get; set; }
+        public string? Problem { get; set; }
+        public string? Report { get; set; }
+        public string? Places { get; set; }
+        public byte[]? Photo { get; set; }
         public int? IdMechanic { get; set; }
+        public DateTime? DateRequest { get; set; }
+        public DateTime? DateRequestEnd { get; set; }
 
         public virtual Mechanics IdMechanicNavigation { get; set; }
         public virtual MotorcyclesToClient IdMotoClNavigation { get; set; }

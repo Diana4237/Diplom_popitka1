@@ -63,7 +63,7 @@ namespace Diplom_popitka1.Controllers
                     }
                     return View("~/Views/Home/AuthorizationWindow.cshtml");
                 }
-               
+
             }
             return View("~/Views/Client/RegistrationWindow.cshtml");
         }
@@ -74,7 +74,7 @@ namespace Diplom_popitka1.Controllers
         }
         public IActionResult AccountClient()
         {
-            
+
             return View();
         }
 
@@ -138,31 +138,32 @@ namespace Diplom_popitka1.Controllers
             var serializedThisMoto = HttpContext.Session.GetString("ThisMotorcycle");
             var mot = serializedThisMoto != null ? JsonConvert.DeserializeObject<MotorcyclesToClient>(serializedThisMoto) : null;
             var motClient = _context.MotorcyclesToClient.Find(mot.IdMotoCl);
-            if (motClient != null) { 
-            if (photo != null)
+            if (motClient != null)
             {
-                 motClient.PhotoMoto = Photo(photo);
-            }
-            int yeare = DateTime.ParseExact(year, "yyyy", CultureInfo.InvariantCulture).Year;
-            DateTime dateTime = new DateTime(yeare, 1, 1);
-            if (model.Length != 0 && year.Length != 0 && mileage != 0)
-            {
+                if (photo != null)
+                {
+                    motClient.PhotoMoto = Photo(photo);
+                }
+                int yeare = DateTime.ParseExact(year, "yyyy", CultureInfo.InvariantCulture).Year;
+                DateTime dateTime = new DateTime(yeare, 1, 1);
+                if (model.Length != 0 && year.Length != 0 && mileage != 0)
+                {
                     motClient.YearRelease = dateTime;
                     motClient.Mileage = mileage;
                     motClient.Model = model;
-            }
+                }
                 else
                 {
 
                 }
-            _context.SaveChanges();
-            var serializedClient = HttpContext.Session.GetString("ClientLogin");
-            var loginClient = serializedClient != null ? JsonConvert.DeserializeObject<Clients>(serializedClient) : null;
-            List<MotorcyclesToClient> mots = _context.MotorcyclesToClient
-          .Where(m => m.IdClient == loginClient.IdClient)
-          .ToList();
-            ViewBag.name = loginClient.Fullname; ViewBag.tel = loginClient.Telephone;
-            return View("~/Views/Client/AccountClient.cshtml", mots);
+                _context.SaveChanges();
+                var serializedClient = HttpContext.Session.GetString("ClientLogin");
+                var loginClient = serializedClient != null ? JsonConvert.DeserializeObject<Clients>(serializedClient) : null;
+                List<MotorcyclesToClient> mots = _context.MotorcyclesToClient
+              .Where(m => m.IdClient == loginClient.IdClient)
+              .ToList();
+                ViewBag.name = loginClient.Fullname; ViewBag.tel = loginClient.Telephone;
+                return View("~/Views/Client/AccountClient.cshtml", mots);
             }
             return View("~/Views/Client/AddMoto.cshtml");
         }
@@ -199,9 +200,9 @@ namespace Diplom_popitka1.Controllers
             }
 
         }
-        public IActionResult AddRequest() 
+        public IActionResult AddRequest()
         {
-            
+
             foreach (var entity in _context.ChangeTracker.Entries())
             {
                 if (entity.Entity != null)
@@ -221,19 +222,19 @@ namespace Diplom_popitka1.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult AddRequest(MotorcyclesToClient mot,string problem,IFormFile photo,string selectedValues) 
+        public IActionResult AddRequest(MotorcyclesToClient mot, string problem, IFormFile photo, string selectedValues)
         {
-            if (mot != null && problem.Length != 0) 
+            if (mot != null && problem.Length != 0)
             {
-                RepairRequests repairRequests = new RepairRequests 
-                { 
-                    IdMotoCl=mot.IdMotoCl,
-                    Status="Принято в обработку",
-                    Problem=problem,
-                    Report=null,
-                    Places= selectedValues,
-                    Photo=Photo(photo),
-                    IdMechanic=null
+                RepairRequests repairRequests = new RepairRequests
+                {
+                    IdMotoCl = mot.IdMotoCl,
+                    Status = "Принято в обработку",
+                    Problem = problem,
+                    Report = null,
+                    Places = selectedValues,
+                    Photo = Photo(photo),
+                    IdMechanic = null
                 };
                 _context.RepairRequests.Add(repairRequests);
                 _context.SaveChanges();

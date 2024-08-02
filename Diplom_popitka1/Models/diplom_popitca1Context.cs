@@ -250,6 +250,10 @@ namespace Diplom_popitka1.Models
 
                 entity.Property(e => e.IdRequest).HasColumnName("id_request");
 
+                entity.Property(e => e.DateRequest).HasColumnType("datetime");
+
+                entity.Property(e => e.DateRequestEnd).HasColumnType("datetime");
+
                 entity.Property(e => e.IdMechanic).HasColumnName("id_mechanic");
 
                 entity.Property(e => e.IdMotoCl).HasColumnName("id_motoCl");

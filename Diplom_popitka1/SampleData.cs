@@ -7,6 +7,7 @@ namespace Diplom_popitka1
     {
         public static void Initialize(diplom_popitca1Context context, IWebHostEnvironment env)
         {
+            //
             byte[] a = File.ReadAllBytes(@"wwwroot\images\places\1.JPG");
             byte[] b = File.ReadAllBytes(@"wwwroot\images\places\2.JPG");
             byte[] c = File.ReadAllBytes(@"wwwroot\images\places\3.JPG");

@@ -19,14 +19,14 @@ namespace Diplom_popitka1.Controllers
 
         public HomeController(diplom_popitca1Context context)
         {
-             _context = context;
+            _context = context;
         }
 
         public IActionResult About_company()
         {
             return View();
         }
-       
+
 
 
         public byte[] Photo(IFormFile phot)
@@ -37,8 +37,8 @@ namespace Diplom_popitka1.Controllers
                 return target.ToArray();
             }
         }
-       
-       //
+
+        //
         public IActionResult AccountMechanic()
         {
             return View();
@@ -58,12 +58,12 @@ namespace Diplom_popitka1.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-       //
+        //
         public IActionResult AuthButton_Click()
         {
             return View("~/Views/Home/AuthorizationWindow.cshtml");
         }
-       //
+        //
         public IActionResult AuthorizationWindow()
         {
             return View();
@@ -81,38 +81,36 @@ namespace Diplom_popitka1.Controllers
             Logining user = _context.Logining.SingleOrDefault(user => user.Password == password) ?? new Logining();
             if (user == null)
             {
-                return View("~/Views/Home/Authorization.cshtml");
+                return View("~/Views/Home/AuthorizationWindow.cshtml");
             }
             else
             {
                 if (user.IdRole == 1)
                 {
-                    Clients loginClient = _context.Clients.SingleOrDefault(client => client.IdClient == user.IdLoginUser ) ?? new Clients();
-                    if (loginClient != null)
+                    var loginClient = _context.Clients.SingleOrDefault(client => client.IdClient == user.IdLoginUser);
+                    if (loginClient != null && loginClient.Telephone == tel)
                     {
-                        if (loginClient.Telephone == tel)
-                        {
-                            HttpContext.Session.SetString("ClientLogin", Newtonsoft.Json.JsonConvert.SerializeObject(loginClient));
-                            
-                            List<MotorcyclesToClient> mots = _context.MotorcyclesToClient
-            .Where(m => m.IdClient == loginClient.IdClient)
-            .ToList();
-                            ViewData["Mots"] = mots;
-                            ViewBag.name = loginClient.Fullname; ViewBag.tel = tel;
-                            // mymodel.MotocycleToClient = mots;
-                            return View("~/Views/Client/AccountClient.cshtml", mots);
-                        }
-
+                        HttpContext.Session.SetString("ClientLogin", Newtonsoft.Json.JsonConvert.SerializeObject(loginClient));
+                        var mots = _context.MotorcyclesToClient.Where(m => m.IdClient == loginClient.IdClient).ToList();
+                        ViewData["Mots"] = mots;
+                        ViewBag.name = loginClient.Fullname;
+                        ViewBag.tel = tel;
+                        return View("~/Views/Client/AccountClient.cshtml", mots);
                     }
-                    return View("~/Views/Home/Authorization.cshtml");
                 }
-                else
+                else if (user.IdRole == 2)
                 {
-                    Mechanics loginMechanic = _context.Mechanics.SingleOrDefault(mechanic => mechanic.IdMechanic == user.IdLoginUser) ?? new Mechanics();
-                    HttpContext.Session.SetString("MechanicLogin", Newtonsoft.Json.JsonConvert.SerializeObject(loginMechanic));
-                    ViewBag.name = loginMechanic.Fullname; ViewBag.tel = tel;
-                    return RedirectToAction("AccountMechanic", "Mechanic");
+                    var loginMechanic = _context.Mechanics.SingleOrDefault(mechanic => mechanic.IdMechanic == user.IdLoginUser);
+                    if (loginMechanic != null && loginMechanic.Telephone == tel)
+                    {
+                        HttpContext.Session.SetString("MechanicLogin", Newtonsoft.Json.JsonConvert.SerializeObject(loginMechanic));
+                        ViewData["name"] = loginMechanic.Fullname;
+                        ViewData["tel"] = tel;
+                        return RedirectToAction("AccountMechanic", "Mechanic");
+                    }
                 }
+
+                return View("~/Views/Home/AuthorizationWindow.cshtml");
             }
 
         }

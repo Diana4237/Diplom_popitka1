@@ -10,7 +10,7 @@ namespace Diplom_popitka1.Models
     public partial class Places
     {
         public int IdPlace { get; set; }
-        public string? Name { get; set; }
-        public byte[]? Photo { get; set; }
+        public string Name { get; set; }
+        public byte[] Photo { get; set; }
     }
 }
