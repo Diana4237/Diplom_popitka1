@@ -116,3 +116,17 @@ td {
     color: black;
     
 }
+.block {
+    flex: 1; /* Занимает равное пространство */
+    margin: 10px; /* Отступы между блоками */
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    box-sizing: border-box; /* Учитывает отступы и границы в ширине блока */
+}
+@media (max-width: 768px) {
+    .block {
+        flex-basis: 100%; /* Блоки занимают всю ширину */
+        margin: 5px 0; /* Отступы сверху и снизу */
+    }
+}

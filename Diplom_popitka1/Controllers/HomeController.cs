@@ -97,6 +97,7 @@ namespace Diplom_popitka1.Controllers
                             List<MotorcyclesToClient> mots = _context.MotorcyclesToClient
             .Where(m => m.IdClient == loginClient.IdClient)
             .ToList();
+                            ViewData["Mots"] = mots;
                             ViewBag.name = loginClient.Fullname; ViewBag.tel = tel;
                             // mymodel.MotocycleToClient = mots;
                             return View("~/Views/Client/AccountClient.cshtml", mots);
@@ -107,7 +108,10 @@ namespace Diplom_popitka1.Controllers
                 }
                 else
                 {
-                    return View("~/View/Home/AccountMechanic.cshtml");
+                    Mechanics loginMechanic = _context.Mechanics.SingleOrDefault(mechanic => mechanic.IdMechanic == user.IdLoginUser) ?? new Mechanics();
+                    HttpContext.Session.SetString("MechanicLogin", Newtonsoft.Json.JsonConvert.SerializeObject(loginMechanic));
+                    ViewBag.name = loginMechanic.Fullname; ViewBag.tel = tel;
+                    return RedirectToAction("AccountMechanic", "Mechanic");
                 }
             }
 

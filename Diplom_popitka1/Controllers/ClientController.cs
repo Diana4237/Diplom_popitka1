@@ -67,8 +67,14 @@ namespace Diplom_popitka1.Controllers
             }
             return View("~/Views/Client/RegistrationWindow.cshtml");
         }
+        public IActionResult AccountClient(string mots)
+        {
+            var motsList = JsonConvert.DeserializeObject<List<MotorcyclesToClient>>(mots);
+            return View(motsList);
+        }
         public IActionResult AccountClient()
         {
+            
             return View();
         }
 
