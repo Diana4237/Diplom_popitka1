@@ -19,6 +19,13 @@ namespace Diplom_popitka1.Controllers
         //public IActionResult SaveNote() { }
         public IActionResult AccountMechanic()
         {
+            foreach (var entity in _context.ChangeTracker.Entries())
+            {
+                if (entity.Entity != null)
+                {
+                    entity.Reload();
+                }
+            }
             var serializedMechanic = HttpContext.Session.GetString("MechanicLogin");
             var loginMechanic = serializedMechanic != null ? JsonConvert.DeserializeObject<Mechanics>(serializedMechanic) : null;
             var requests = _context.RepairRequests

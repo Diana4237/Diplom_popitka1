@@ -6,7 +6,7 @@
     var serializedClient = Context.Session.GetString("ClientLogin");
     var loginClient = serializedClient != null ? JsonConvert.DeserializeObject<Clients>(serializedClient) : null;
     var serializedMoto = Context.Session.GetString("MyMotorcycles");
-    var motoList = serializedMoto != null ? JsonConvert.DeserializeObject<List<TakeMotoToWork>>(serializedMoto) : null;
+    var motoList = serializedMoto != null ? JsonConvert.DeserializeObject<List<MotorcyclesToClient>>(serializedMoto) : null;
     var serializedPlaces = Context.Session.GetString("PlacesOfFailure");
     var places = serializedPlaces != null ? JsonConvert.DeserializeObject<List<Places>>(serializedPlaces) : null;
 
@@ -122,19 +122,22 @@
     <h2>Заявки</h2>
     <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("HistoryRequests", "Client")'">История</button>
     </div>
-    <form action="#" method="post">
+    <form action="@Url.Action("AddRequest","Client")" method="post" enctype="multipart/form-data">
         <table class="tab1">
             <tr>
                 <td>
                     <label for="fullname">Ваш мотоцикл:</label>
                 </td>
                 <td>
+                   
                     <select >
                         @foreach (var mot in motoList)
                         {
                             <option>@mot.Model</option>
+                           
                         }
                     </select>
+                    
                 </td>
             </tr>
             <tr>

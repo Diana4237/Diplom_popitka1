@@ -18,7 +18,7 @@ namespace Diplom_popitka1.Models
         public int IdMechanic { get; set; }
         public string Fullname { get; set; }
         public string Telephone { get; set; }
-        public byte[] Photo { get; set; }
+        public byte[]? Photo { get; set; }
 
         public virtual ICollection<Notes> Notes { get; set; }
         public virtual ICollection<RepairRequests> RepairRequests { get; set; }

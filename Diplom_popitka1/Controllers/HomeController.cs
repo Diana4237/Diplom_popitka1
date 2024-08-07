@@ -85,6 +85,7 @@ namespace Diplom_popitka1.Controllers
             }
             else
             {
+                ViewBag.love = user.IdRole;
                 if (user.IdRole == 1)
                 {
                     var loginClient = _context.Clients.SingleOrDefault(client => client.IdClient == user.IdLoginUser);
@@ -100,13 +101,22 @@ namespace Diplom_popitka1.Controllers
                 }
                 else if (user.IdRole == 2)
                 {
-                    var loginMechanic = _context.Mechanics.SingleOrDefault(mechanic => mechanic.IdMechanic == user.IdLoginUser);
-                    if (loginMechanic != null && loginMechanic.Telephone == tel)
+                    ViewBag.love = "Пользователь не найден";
+                    
+                    if (user != null && user.IdUser.HasValue)
                     {
-                        HttpContext.Session.SetString("MechanicLogin", Newtonsoft.Json.JsonConvert.SerializeObject(loginMechanic));
-                        ViewData["name"] = loginMechanic.Fullname;
-                        ViewData["tel"] = tel;
-                        return RedirectToAction("AccountMechanic", "Mechanic");
+                        var idUser = user.IdUser.Value;
+
+                        var loginMechanic = _context.Mechanics.FirstOrDefault(mechanic => mechanic.IdMechanic == idUser);
+
+                        if (loginMechanic != null && loginMechanic.Telephone == tel)
+                        {
+                            
+                            HttpContext.Session.SetString("MechanicLogin", Newtonsoft.Json.JsonConvert.SerializeObject(loginMechanic));
+                            ViewData["name"] = loginMechanic.Fullname;
+                            ViewData["tel"] = tel;
+                            return RedirectToAction("AccountMechanic", "Mechanic");
+                        }
                     }
                 }
 
