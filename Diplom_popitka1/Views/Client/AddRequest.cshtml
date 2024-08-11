@@ -43,7 +43,7 @@
     });
 
     // Отправить выбранные значения в контроллер при отправке формы
-    const form = document.querySelector('form');
+    const form = document.querySelector('form[name="myForm"]');
     form.addEventListener('submit', (event) => {
         // Предотвратить отправку формы по умолчанию
         event.preventDefault();
@@ -122,7 +122,7 @@
     <h2>Заявки</h2>
     <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("HistoryRequests", "Client")'">История</button>
     </div>
-    <form action="@Url.Action("AddRequest","Client")" method="post" enctype="multipart/form-data">
+    <form action="@Url.Action("AddRequest","Client")" method="post" name="myForm" enctype="multipart/form-data">
         <table class="tab1">
             <tr>
                 <td>
@@ -130,11 +130,10 @@
                 </td>
                 <td>
                    
-                    <select >
+                    <select name="moto">
                         @foreach (var mot in motoList)
                         {
-                            <option>@mot.Model</option>
-                           
+                            <option value="@mot.IdMotoCl">@mot.Model</option>
                         }
                     </select>
                     
@@ -160,7 +159,7 @@
                                 var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
                                 <a href="#" class="tile" data-value="@place.IdPlace">
                                     <img src="@imgSrc" alt="@place.Name">
-                                    <input type="checkbox">
+                                    <input type="checkbox" name="places" value="@place.IdPlace">
                                 </a>
                             }
                            

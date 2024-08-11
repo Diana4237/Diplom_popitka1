@@ -222,22 +222,39 @@ namespace Diplom_popitka1.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult AddRequest(MotorcyclesToClient mot, string problem, IFormFile photo, string selectedValues)
+        public IActionResult AddRequest(int moto, string problem, IFormFile photo, string selectedValues)
         {
-            if (mot != null && problem.Length != 0)
+            var existingMoto = _context.MotorcyclesToClient.Find(moto);
+            if (existingMoto == null)
+            {
+                ModelState.AddModelError("", "Выбранный мотоцикл не найден.");
+                return View();
+            }
+            if (existingMoto != null && problem.Length != 0 && !string.IsNullOrWhiteSpace(problem))
             {
                 RepairRequests repairRequests = new RepairRequests
                 {
-                    IdMotoCl = mot.IdMotoCl,
+                    IdMotoCl = moto,
                     Status = "Принято в обработку",
                     Problem = problem,
                     Report = null,
                     Places = selectedValues,
                     Photo = Photo(photo),
-                    IdMechanic = null
+                    IdMechanic = null,
+                    DateRequest=DateTime.Now,
+                    DateRequestEnd=null
                 };
-                _context.RepairRequests.Add(repairRequests);
-                _context.SaveChanges();
+                try
+                {
+                    _context.RepairRequests.Add(repairRequests);
+                    _context.SaveChanges();
+                    return RedirectToAction("Index"); // нужно поменять на вкладку Мои заявки
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Ошибка при добавлении заявки: " + ex.Message);
+                    return View(); // Возврат текущего представления с ошибками
+                }
             }
             //string[] selectedValuesArray = selectedValues.Split(',');
             return View();
