@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Globalization;
+using System.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Diplom_popitka1.Controllers
@@ -258,6 +259,35 @@ namespace Diplom_popitka1.Controllers
             }
             //string[] selectedValuesArray = selectedValues.Split(',');
             return View();
+        }
+
+        public IActionResult HistoryRequests()
+        {
+            var serializedClient = HttpContext.Session.GetString("ClientLogin");
+            var loginClient = serializedClient != null ? JsonConvert.DeserializeObject<Clients>(serializedClient) : null;
+
+            List<MotorcyclesToClient> mots = _context.MotorcyclesToClient
+       .Where(m => m.IdClient == loginClient.IdClient)
+       .ToList();
+            var motoClIds = mots.Select(m => m.IdMotoCl).ToList();
+            List<RepairRequests> requests = _context.RepairRequests
+       .Where(r => motoClIds.Contains((int)r.IdMotoCl))
+       .ToList();
+            var repairRequestsView = requests.Select(r => new RepairRequestsView
+            {
+                IdRequest = r.IdRequest,
+                nameMotoCl = r.IdMotoClNavigation?.Model, // Убедитесь, что у вас есть свойство Name в MotorcyclesToClient
+              
+                Status = r.Status,
+                Problem = r.Problem,
+                Report = r.Report,
+                Places = r.Places,
+                Photo = r.Photo,
+                nameMechanic = r.IdMechanic,
+                DateRequest = r.DateRequest,
+                DateRequestEnd = r.DateRequestEnd
+            }).ToList();
+            return View(repairRequestsView);
         }
 
     }

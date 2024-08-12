@@ -1,5 +1,86 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@model List<RepairRequestsView>
 @{
 }
+<style>
+    .part {
+        display: flex;
+       /* justify-content: space-between;*/
+        align-items: center;
+    }
+
+    .containerpart {
+        border: solid #ffff;
+        margin:20px;
+        justify-content: center; /* Добавляем эту строку */
+        flex-direction: column;
+    }
+
+    .labelWhite {
+        color: #ffff;
+        margin: 10px;
+    }
+
+    .labelOrange {
+        color: #FF8A00;
+        margin:10px;
+    }
+
+    .button {
+        background-color: transparent;
+        border: 2px solid #ffff;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 0 0 0 10px; /* Скругленные углы сверху */
+        cursor: pointer;
+        margin-left: auto;
+    }
+
+    .middle-text {
+        text-align: center;
+        margin-top: 20px;
+        color: #ffff;
+    }
+</style>
+<div style="background: #000000; padding:20px; height:100vh;">
+    @foreach(var request in Model){
+    <div class="containerpart">
+        <div class="part">
+            <label class="labelWhite">Заявка от @request.DateRequest</label>
+            <button class="button">Оставить отзыв</button>
+        </div>
+           
+            <label class="middle-text">@request.nameMotoCl</label>
+        <br>
+            @if (request.Status!="Завершена")
+            {
+                <label class="labelOrange">Проблема:</label>
+                <label class="labelWhite">@request.Problem</label>
+                <label class="labelOrange">Статус заявки:</label>
+                <label class="labelWhite">@request.Status</label>
+                if (request.nameMechanic != null)
+                {
+                    <label class="labelOrange">Ответственный за работу:</label>
+                    <label class="labelWhite">@request.nameMechanic</label>
+                }
+            }
+            else
+            {
+                <label class="labelOrange">Проблема:</label>
+                <label class="labelWhite">@request.Problem</label>
+                <label class="labelOrange">Ответственный за работу:</label>
+                <label class="labelWhite">@request.nameMechanic</label>
+                <label class="labelOrange">Отчет механика:</label>
+                <label class="labelWhite">@request.Report</label>
+                <label class="labelOrange">Статус заявки:</label>
+                <label class="labelWhite">@request.Status</label>
+            }
+        </div>
+    }
+ </div>
