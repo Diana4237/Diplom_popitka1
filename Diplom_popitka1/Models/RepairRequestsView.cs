@@ -4,6 +4,7 @@
     {
         public int IdRequest { get; set; }
         public string nameMotoCl { get; set; }
+        public string nameCl { get; set; }
         public string? Status { get; set; }
         public string? Problem { get; set; }
         public string? Report { get; set; }

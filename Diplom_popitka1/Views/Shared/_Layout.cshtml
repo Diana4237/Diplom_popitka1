@@ -67,15 +67,42 @@
                     {
                         <li><a href="@Url.Action("AccountClient", "Client", new { mots = JsonConvert.SerializeObject(mots) })">Аккаунт</a></li>
                     }*@
-                    <li><a href="@Url.Action("Index", "Home")">Аккаунт</a></li>
+                    <li><a href="@Url.Action("AccountCl", "Client")">Аккаунт</a></li>
                         @* <li><a href="@Url.Action("Requarments", "Home")">Заявки</a></li>*@
                         @*<li><a href="@Url.Action("AddMoto", "Home")">Аккаунт+</a></li>*@
                     </ul>
 
-                </header>
-            }
+            </header>
+        }
+        else
+        {
+            <header id="header_main">
+                <table>
+                    <tr>
+                        <td>
+                            <img style="margin-left:40px;margin-right:40px;" height="160" src="/images/logo.jpg" />
+                        </td>
 
-        
+                       
+                        <td style="text-align:center;">
+                            @if (ViewContext.RouteData.Values["action"].ToString() != "About_company")
+                            {
+                                <button type="button" class="btn btn-primar" onclick="location.href = '@Url.Action("AddRequest", "Client")'">Подать заявку</button>
+                            }
+                        </td>
+                    </tr>
+                </table>
+
+                <ul id="navbar">
+                    <li><a href="@Url.Action("NewRequests", "Mechanic")">Заявки</a></li>
+                    <li><a href="@Url.Action("MessageMechanic", "Mechanic")">Сообщения</a></li>
+                    <li><a href="@Url.Action("AccountMechanic", "Mechanic")">Аккаунт</a></li>
+                </ul>
+
+            </header>
+        }
+
+
     }
         <main role="main" >
             @RenderBody()

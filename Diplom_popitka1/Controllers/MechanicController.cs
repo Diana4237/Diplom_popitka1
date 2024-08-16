@@ -16,6 +16,32 @@ namespace Diplom_popitka1.Controllers
         {
             return View();
         }
+        public IActionResult MyRequests()
+        {
+            return View();
+        }
+        public IActionResult NewRequests()
+        {
+            List<RepairRequests> requests = _context.RepairRequests
+       .Where(r => r.Status=="Принято в обработку")
+       .ToList();
+
+            var repairRequestsView = requests.Select(r => new RepairRequestsView
+            {
+                IdRequest = r.IdRequest,
+                nameMotoCl = r.IdMotoClNavigation?.Model, // Убедитесь, что у вас есть свойство Name в MotorcyclesToClient
+
+                Status = r.Status,
+                Problem = r.Problem,
+                Report = r.Report,
+                Places = r.Places,
+                Photo = r.Photo,
+                nameMechanic = r.IdMechanic,
+                DateRequest = r.DateRequest,
+                DateRequestEnd = r.DateRequestEnd
+            }).ToList();
+            return View(repairRequestsView);
+        }
         //public IActionResult SaveNote() { }
         public IActionResult AccountMechanic()
         {

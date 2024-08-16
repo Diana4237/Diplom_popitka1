@@ -71,12 +71,17 @@ namespace Diplom_popitka1.Controllers
         public IActionResult AccountClient(string mots)
         {
             var motsList = JsonConvert.DeserializeObject<List<MotorcyclesToClient>>(mots);
+           // HttpContext.Session.SetString("MyMotorcycles", Newtonsoft.Json.JsonConvert.SerializeObject(motsList));
             return View(motsList);
         }
-        public IActionResult AccountClient()
+        public IActionResult AccountCl()
         {
-
-            return View();
+            var serializedClient = HttpContext.Session.GetString("ClientLogin");
+            var loginClient = serializedClient != null ? JsonConvert.DeserializeObject<Clients>(serializedClient) : null;
+            ViewBag.name = loginClient.Fullname;
+            ViewBag.tel = loginClient.Telephone;
+            var mots = _context.MotorcyclesToClient.Where(m => m.IdClient == loginClient.IdClient).ToList();
+            return View("~/Views/Client/AccountClient.cshtml", mots);
         }
 
         public byte[] Photo(IFormFile phot)
@@ -114,7 +119,7 @@ namespace Diplom_popitka1.Controllers
           .Where(m => m.IdClient == loginClient.IdClient)
           .ToList();
             ViewBag.name = loginClient.Fullname; ViewBag.tel = loginClient.Telephone;
-            return View("~/Views/Home/AccountClient.cshtml", mots);
+            return View("~/Views/Client/AccountClient.cshtml", mots);
         }
         public IActionResult ThisMoto(int id)
         {
