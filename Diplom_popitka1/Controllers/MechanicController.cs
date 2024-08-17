@@ -18,19 +18,20 @@ namespace Diplom_popitka1.Controllers
         }
         public IActionResult MyRequests()
         {
-            return View();
-        }
-        public IActionResult NewRequests()
-        {
+            List<MotorcyclesToClient> mots = _context.MotorcyclesToClient
+     .ToList();
+            var motoClIds = mots.Select(m => m.IdMotoCl).ToList();
+            var serializedMechanic = HttpContext.Session.GetString("MechanicLogin");
+            var loginMechanic = serializedMechanic != null ? JsonConvert.DeserializeObject<Mechanics>(serializedMechanic) : null;
             List<RepairRequests> requests = _context.RepairRequests
-       .Where(r => r.Status=="Принято в обработку")
+       .Where(m => m.IdMechanic == loginMechanic.IdMechanic && motoClIds.Contains((int)m.IdMotoCl))
        .ToList();
-
             var repairRequestsView = requests.Select(r => new RepairRequestsView
             {
                 IdRequest = r.IdRequest,
                 nameMotoCl = r.IdMotoClNavigation?.Model, // Убедитесь, что у вас есть свойство Name в MotorcyclesToClient
-
+                nameCl = r.IdMotoClNavigation != null ? _context.Clients.Where(c => c.IdClient ==
+                r.IdMotoClNavigation.IdClient).Select(c => c.Fullname).FirstOrDefault() : null,
                 Status = r.Status,
                 Problem = r.Problem,
                 Report = r.Report,
@@ -41,6 +42,50 @@ namespace Diplom_popitka1.Controllers
                 DateRequestEnd = r.DateRequestEnd
             }).ToList();
             return View(repairRequestsView);
+        }
+        public IActionResult UpdateMyRequest() 
+        {
+            return View("~/Views/Mechanic/MyRequests.cshtml");
+        }
+
+        public IActionResult NewRequests()
+        {
+            List<MotorcyclesToClient> mots = _context.MotorcyclesToClient
+      .ToList();
+            var motoClIds = mots.Select(m => m.IdMotoCl).ToList();
+            List<RepairRequests> requests = _context.RepairRequests
+       .Where(r => r.Status=="Принято в обработку"&& motoClIds.Contains((int)r.IdMotoCl))
+       .Include(r => r.IdMotoClNavigation)
+       .ToList();
+
+            var repairRequestsView = requests.Select(r => new RepairRequestsView
+            {
+                IdRequest = r.IdRequest,
+                nameMotoCl = r.IdMotoClNavigation?.Model, // Убедитесь, что у вас есть свойство Name в MotorcyclesToClient
+                nameCl = r.IdMotoClNavigation != null ? _context.Clients.Where(c => c.IdClient ==
+                r.IdMotoClNavigation.IdClient).Select(c => c.Fullname).FirstOrDefault() : null,
+            Status = r.Status,
+                Problem = r.Problem,
+                Report = r.Report,
+                Places = r.Places,
+                Photo = r.Photo,
+                nameMechanic = r.IdMechanic,
+                DateRequest = r.DateRequest,
+                DateRequestEnd = r.DateRequestEnd
+            }).ToList();
+            return View(repairRequestsView);
+        }
+        public IActionResult AddInMyRequest(int requestId) 
+        {
+           RepairRequests request= _context.RepairRequests.Find(requestId);
+            if (request != null) { 
+            var serializedMechanic = HttpContext.Session.GetString("MechanicLogin");
+            var loginMechanic = serializedMechanic != null ? JsonConvert.DeserializeObject<Mechanics>(serializedMechanic) : null;
+            request.IdMechanic = loginMechanic.IdMechanic;
+            request.Status = "Диагностика";
+            _context.SaveChanges();
+            }
+            return View("~/Views/Mechanic/MyRequests.cshtml");
         }
         //public IActionResult SaveNote() { }
         public IActionResult AccountMechanic()

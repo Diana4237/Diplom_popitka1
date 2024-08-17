@@ -1,5 +1,79 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@model List<RepairRequestsView>
 @{
 }
+<style>
+    .part {
+        display: flex;
+        /* justify-content: space-between;*/
+        align-items: center;
+    }
+
+    .containerpart {
+        border: solid #ffff;
+        margin: 20px;
+        justify-content: center; /* Добавляем эту строку */
+        flex-direction: column;
+    }
+
+    .labelWhite {
+        color: #ffff;
+        margin: 10px;
+    }
+
+    .labelOrange {
+        color: #FF8A00;
+        margin: 10px;
+    }
+
+    .button {
+        background-color: transparent;
+        border: 2px solid #ffff;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 10px 0 0 0; /* Скругленные углы сверху */
+        cursor: pointer;
+        margin-left: auto;
+    }
+
+    .middle-text {
+        text-align: center;
+        margin-top: 20px;
+        color: #ffff;
+    }
+</style>
+<div style="background: #000000; padding:20px; height:100vh;">
+    @foreach (var request in Model)
+    {
+        <div class="containerpart" value="@request.IdRequest">
+            <div class="part">
+                <label class="labelWhite">Заявка от @request.DateRequest</label>
+                <label class="labelOrange" style="display: inline-block;
+        margin-left: auto;"> @request.Status</label>
+            </div>
+
+            <label class="labelOrange">Мотоцикл:</label>
+            <label class="middle-text">@request.nameMotoCl</label>
+            <br>
+            <label class="labelOrange">Имя заявителя:</label>
+            <label class="labelWhite">@request.nameCl</label>
+            <br>
+            <label class="labelOrange">Проблема:</label>
+            <label class="labelWhite">@request.Problem</label>
+            <br>
+            <label class="labelOrange">Предполагаемые места поломки:</label>
+            <label class="middle-text">@request.Places</label>
+            <br>
+            <button class="button" onclick="location.href='@Url.Action("UpdateMyRequest", "Mechanic",
+                new { requestId = request.IdRequest })'">
+                Обновить статус
+            </button>
+        </div>
+    }
+</div>

@@ -51,12 +51,15 @@
 <div style="background: #000000; padding:20px; height:100vh;">
     @foreach (var request in Model)
     {
-        <div class="containerpart">
+        <div class="containerpart" value="@request.IdRequest">
             <div class="part">
                 <label class="labelWhite">Заявка от @request.DateRequest</label>
-               
-            </div>
 
+                <button class="button" onclick="location.href='@Url.Action("AddInMyRequest", "Mechanic", 
+                new { requestId = request.IdRequest })'">Принять заявку</button>
+            </div>
+           
+            <label class="labelOrange">Мотоцикл:</label>
             <label class="middle-text">@request.nameMotoCl</label>
             <br>
             <label class="labelOrange">Имя заявителя:</label>
@@ -64,7 +67,10 @@
             <br>
              <label class="labelOrange">Проблема:</label>
              <label class="labelWhite">@request.Problem</label>
-             
+            <br>
+            <label class="labelOrange">Предполагаемые места поломки:</label>
+            <label class="middle-text">@request.Places</label>
+            
         </div>
     }
 </div>
