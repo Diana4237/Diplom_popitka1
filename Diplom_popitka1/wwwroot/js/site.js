@@ -1,6 +1,20 @@
 ﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
 
+
+// изменение статуса
+//function changeStatus(id, direction) {
+//    $.ajax({
+//        url: "/Status/ChangeStatus",
+//        type: "POST",
+//        data: { id: id, direction: direction },
+//        success: function (response) {
+//            // Перенаправляем пользователя обратно на страницу со списком заявок
+//            window.location.href = "/Mechanic/MyRequest";
+//        }
+//    });
+//}
+
+//аккаунт механика
 document.addEventListener('DOMContentLoaded', function () {
     createCalendar(document.getElementById('calendar'), 2023, 6);
 });

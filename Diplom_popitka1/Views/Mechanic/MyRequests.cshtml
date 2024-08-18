@@ -37,7 +37,7 @@
         text-decoration: none;
         display: inline-block;
         font-size: 16px;
-        border-radius: 10px 0 0 0; /* Скругленные углы сверху */
+        /*border-radius: 10px 0 0 0;  Скругленные углы сверху */
         cursor: pointer;
         margin-left: auto;
     }
@@ -49,6 +49,9 @@
     }
 </style>
 <div style="background: #000000; padding:20px; height:100vh;">
+    <button type="button" class="btn btn-primar" style=" background-color: #F98404;" onclick="location.href = '@Url.Action("NewRequests",
+    "Mechanic")'">Добавить заявку</button>
+    <br>
     @foreach (var request in Model)
     {
         <div class="containerpart" value="@request.IdRequest">
@@ -70,10 +73,32 @@
             <label class="labelOrange">Предполагаемые места поломки:</label>
             <label class="middle-text">@request.Places</label>
             <br>
-            <button class="button" onclick="location.href='@Url.Action("UpdateMyRequest", "Mechanic",
+            @*<button class="button" onclick="location.href='@Url.Action("UpdateMyRequest", "Mechanic",
                 new { requestId = request.IdRequest })'">
                 Обновить статус
-            </button>
+            </button>*@
+
+
+          
+
+
+
+            <span class="non-clickable-button">Обновить статус</span>
+
+            <form method="post" action="@Url.Action("ChangeStatus", "Status")">
+                <input type="hidden" name="id" value="@request.IdRequest" />
+                <input type="hidden" name="direction" value="backward" />
+                <button class="button" type="submit">&lt;</button>
+            </form>
+             <form method="post" action="@Url.Action("ChangeStatus", "Status")">
+                <input type="hidden" name="id" value="@request.IdRequest" />
+                <input type="hidden" name="direction" value="forward" />
+                <button class="button" type="submit">&gt;</button>
+            </form>
+            
         </div>
     }
+    <script>
+         
+    </script>
 </div>
