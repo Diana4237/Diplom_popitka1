@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Diplom_popitka1.Controllers
 {
@@ -109,5 +110,16 @@ namespace Diplom_popitka1.Controllers
             ViewBag.name = loginMechanic.Fullname; ViewBag.tel = loginMechanic.Telephone;
             return View(requests);
         }
-    }
+        [HttpPost]
+        public IActionResult RequestsInThisDay([FromBody] DateTime date)
+        {
+            var serializedMechanic = HttpContext.Session.GetString("MechanicLogin");
+            var loginMechanic = serializedMechanic != null ? JsonConvert.DeserializeObject<Mechanics>(serializedMechanic) : null;
+            ViewBag.name = loginMechanic.Fullname; ViewBag.tel = loginMechanic.Telephone;
+            List< RepairRequests > repairRequestsToday= _context.RepairRequests
+       .Where(r => r.IdMechanic== loginMechanic.IdMechanic && r.DateRequest.HasValue && r.DateRequest.Value.Date ==date.Date)
+       .ToList();
+            return View("~/Views/Mechanic/AccountMechanic.cshtml", repairRequestsToday);
+        }
+        }
 }
