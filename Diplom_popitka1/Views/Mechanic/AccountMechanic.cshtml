@@ -160,6 +160,7 @@ input[type="radio"] {
             <button id="btnPrev" type="button">Предыдущий</button>
             <button id="btnNext" type="button">Следующий</button>
             <div id="divCal"></div>
+            
         </div>
     </div>
     <div class="block" style="background-color: #90ee90;">
@@ -168,6 +169,7 @@ input[type="radio"] {
                 <input type="hidden" name="requestId" id="requestId">
             <input type="hidden" name="dateChoicen" id="dateChoicen">
             <div class="radio-group" id="repairRequestsContainer">
+                <div id="selectedDateDisplay"></div>
                 @foreach (var request in Model)
                 {
                     <label>

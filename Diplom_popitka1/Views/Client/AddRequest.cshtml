@@ -158,7 +158,7 @@
                                 var base64 = Convert.ToBase64String(place.Photo);
                                 var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
                                 <a href="#" class="tile" data-value="@place.IdPlace">
-                                    <img src="@imgSrc" alt="@place.Name">
+                                    <img src="@imgSrc" alt="@place.Name" title="@place.Name">
                                     <input type="checkbox" name="places" value="@place.IdPlace">
                                 </a>
                             }
@@ -216,6 +216,23 @@
 
             .dropdown:hover .dropdown-content {
                 display: block;
+            }
+
+            .dropdown-content .tile img:hover {
+                cursor: pointer; /* Указываем, что курсор должен быть в виде указателя */
+            }
+
+            .dropdown-content .tile img[title]:hover::after {
+                content: attr(title); /* Отображаем текст из атрибута title */
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: #f9f9f9; /* Цвет фона подсказки */
+                border: 1px solid #ccc; /* Граница подсказки */
+                padding: 5px 10px; /* Отступы подсказки */
+                border-radius: 5px; /* Скругление углов подсказки */
+                z-index: 10; /* Указываем, что подсказка должна быть сверху */
             }
         </style>
 

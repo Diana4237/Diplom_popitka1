@@ -1,8 +1,10 @@
 ﻿using Diplom_popitka1.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Diplom_popitka1.Controllers
 {
@@ -84,6 +86,7 @@ namespace Diplom_popitka1.Controllers
             var loginMechanic = serializedMechanic != null ? JsonConvert.DeserializeObject<Mechanics>(serializedMechanic) : null;
             request.IdMechanic = loginMechanic.IdMechanic;
             request.Status = "Диагностика";
+            request.DateRequest = DateTime.Now;
             _context.SaveChanges();
             }
             return View("~/Views/Mechanic/MyRequests.cshtml");
@@ -110,16 +113,54 @@ namespace Diplom_popitka1.Controllers
             ViewBag.name = loginMechanic.Fullname; ViewBag.tel = loginMechanic.Telephone;
             return View(requests);
         }
+
+
+
+
         [HttpPost]
-        public IActionResult RequestsInThisDay([FromBody] DateTime date)
+        public IActionResult RequestsInThisDay(string date)
         {
-            var serializedMechanic = HttpContext.Session.GetString("MechanicLogin");
+            if (string.IsNullOrEmpty(date))
+            {
+                // Логирование или отладочный вывод
+                return BadRequest("Дата не была передана или она пуста.");
+            }
+            DateTime selectedDateTime = DateTime.ParseExact(date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            DateTime dateSelect;
+
+            // Определяем формат строки даты
+            string dateFormat = "dd-MM-yyyy";
+
+            // Преобразуем строку в DateTime
+           
+                var serializedMechanic = HttpContext.Session.GetString("MechanicLogin");
             var loginMechanic = serializedMechanic != null ? JsonConvert.DeserializeObject<Mechanics>(serializedMechanic) : null;
-            ViewBag.name = loginMechanic.Fullname; ViewBag.tel = loginMechanic.Telephone;
-            List< RepairRequests > repairRequestsToday= _context.RepairRequests
-       .Where(r => r.IdMechanic== loginMechanic.IdMechanic && r.DateRequest.HasValue && r.DateRequest.Value.Date ==date.Date)
-       .ToList();
-            return View("~/Views/Mechanic/AccountMechanic.cshtml", repairRequestsToday);
+
+            ViewBag.name = loginMechanic?.Fullname;
+            ViewBag.tel = loginMechanic?.Telephone;
+            if (DateTime.TryParseExact(date, dateFormat, null, System.Globalization.DateTimeStyles.None, out dateSelect))
+            {
+                List<RepairRequests> repairRequestsToday = _context.RepairRequests
+                .Where(r => r.IdMechanic == loginMechanic.IdMechanic && r.DateRequest.HasValue && r.DateRequest.Value.Date == dateSelect.Date)
+                .ToList();
+            
+            return View("~/Views/Mechanic/AccountMechanic.cshtml", repairRequestsToday);  // Use a partial view to render the result
+            }
+            else { 
+            return View("~/Views/Mechanic/AccountMechanic.cshtml");
+            }
         }
-        }
+        // [HttpPost]
+        // public IActionResult RequestsInThisDay([FromBody] DateTime date)
+        // {
+        //     ViewBag.dateSelected = "fgh" + date;
+        //     var serializedMechanic = HttpContext.Session.GetString("MechanicLogin");
+        //     var loginMechanic = serializedMechanic != null ? JsonConvert.DeserializeObject<Mechanics>(serializedMechanic) : null;
+        //     ViewBag.name = loginMechanic.Fullname; ViewBag.tel = loginMechanic.Telephone;
+        //     List<RepairRequests> repairRequestsToday = _context.RepairRequests
+        //.Where(r => r.IdMechanic == loginMechanic.IdMechanic && r.DateRequest.HasValue && r.DateRequest.Value.Date == date.Date)
+        //.ToList();
+        //     return View("~/Views/Mechanic/AccountMechanic.cshtml", repairRequestsToday);
+        // }
+    }
 }

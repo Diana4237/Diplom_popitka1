@@ -1,4 +1,5 @@
 ﻿using Diplom_popitka1.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Numerics;
 
 namespace Diplom_popitka1
@@ -21,7 +22,7 @@ namespace Diplom_popitka1
             byte[] k = File.ReadAllBytes(@"wwwroot\images\places\11.JPG");
             byte[] l = File.ReadAllBytes(@"wwwroot\images\places\12.JPG");
             byte[] m = File.ReadAllBytes(@"wwwroot\images\places\13.jpg");
-            byte[] n = File.ReadAllBytes(@"wwwroot\images\places\14.jpg");
+            byte[] n = File.ReadAllBytes(@"wwwroot\images\places\14 - Фара, габариты.jpg");
             byte[] o = File.ReadAllBytes(@"wwwroot\images\places\15.JPG");
             byte[] p = File.ReadAllBytes(@"wwwroot\images\places\16.JPG");
             byte[] q = File.ReadAllBytes(@"wwwroot\images\places\17.JPG");
@@ -32,6 +33,22 @@ namespace Diplom_popitka1
             byte[] v = File.ReadAllBytes(@"wwwroot\images\places\22.JPG");
             byte[] w = File.ReadAllBytes(@"wwwroot\images\places\23.JPG");
             byte[] x = File.ReadAllBytes(@"wwwroot\images\places\24.JPG");
+            //var photoData = new List<byte[]>
+            //{
+            //a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x
+            //};
+
+            //// Получаем все записи из таблицы Places
+            //var places = context.Places.ToList();
+
+            //// Обновляем значения столбца Photo
+            //for (int z = 1; z < places.Count; z++)
+            //{
+            //    places[z].Photo = photoData[z]; // Присваиваем данные из списка photoData
+            //}
+
+            //// Сохраняем изменения в базе данных
+            //context.SaveChanges();
             //byte[] y = File.ReadAllBytes(@"wwwroot\images\places\16.JPG");
             //byte[] z = File.ReadAllBytes(@"wwwroot\images\places\16.JPG");
             //if (!context.Places.Any())
@@ -163,23 +180,23 @@ namespace Diplom_popitka1
             //    context.SaveChanges();
 
 
-                //if (!context.Roles.Any())
-                //{
-                //    Roles doctor = new Roles
-                //    {
-                //        Name = "Client"
+            //if (!context.Roles.Any())
+            //{
+            //    Roles doctor = new Roles
+            //    {
+            //        Name = "Client"
 
-                //    };
-                //    context.Roles.Add(doctor);
-                //    context.SaveChanges();
-                //    Roles doctor2 = new Roles
-                //    {
-                //        Name = "Mechanic"
+            //    };
+            //    context.Roles.Add(doctor);
+            //    context.SaveChanges();
+            //    Roles doctor2 = new Roles
+            //    {
+            //        Name = "Mechanic"
 
-                //    };
-                //    context.Roles.Add(doctor2);
-                //    context.SaveChanges();
-                //}
+            //    };
+            //    context.Roles.Add(doctor2);
+            //    context.SaveChanges();
+            //}
             //}
         }
     }
