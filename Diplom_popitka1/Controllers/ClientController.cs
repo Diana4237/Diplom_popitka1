@@ -228,7 +228,7 @@ namespace Diplom_popitka1.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult AddRequest(int moto, string problem, IFormFile photo, string selectedValues)
+        public IActionResult AddRequest(int moto, string problem, IFormFile photo, string selectedNames)
         {
             var existingMoto = _context.MotorcyclesToClient.Find(moto);
             if (existingMoto == null)
@@ -244,7 +244,7 @@ namespace Diplom_popitka1.Controllers
                     Status = "Принято в обработку",
                     Problem = problem,
                     Report = null,
-                    Places = selectedValues,
+                    Places = selectedNames,
                     Photo = Photo(photo),
                     IdMechanic = null,
                     DateRequest=DateTime.Now,
@@ -254,7 +254,7 @@ namespace Diplom_popitka1.Controllers
                 {
                     _context.RepairRequests.Add(repairRequests);
                     _context.SaveChanges();
-                    return RedirectToAction("Index"); // нужно поменять на вкладку Мои заявки
+                    return RedirectToAction("HistoryRequests"); // нужно поменять на вкладку Мои заявки
                 }
                 catch (Exception ex)
                 {

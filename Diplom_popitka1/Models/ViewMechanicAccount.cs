@@ -5,6 +5,7 @@
         public int IdRequest { get; set; }
         public int? IdMotoCl { get; set; }
         public string? ModelMotoCl { get; set; }
+        public string nameCl { get; set; }
         public string? Status { get; set; }
         public string? Problem { get; set; }
         public string? Report { get; set; }

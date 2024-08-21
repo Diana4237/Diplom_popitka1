@@ -118,14 +118,14 @@ namespace Diplom_popitka1.Controllers
 
 
         [HttpPost]
-        public IActionResult RequestsInThisDay(string date)
+        public IActionResult RequestsInThisDay(string selectedDate)
         {
-            if (string.IsNullOrEmpty(date))
+            if (string.IsNullOrEmpty(selectedDate))
             {
                 // Логирование или отладочный вывод
                 return BadRequest("Дата не была передана или она пуста.");
             }
-            DateTime selectedDateTime = DateTime.ParseExact(date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            DateTime selectedDateTime = DateTime.ParseExact(selectedDate, "dd-MM-yyyy", CultureInfo.InvariantCulture);
             DateTime dateSelect;
 
             // Определяем формат строки даты
@@ -138,16 +138,37 @@ namespace Diplom_popitka1.Controllers
 
             ViewBag.name = loginMechanic?.Fullname;
             ViewBag.tel = loginMechanic?.Telephone;
-            if (DateTime.TryParseExact(date, dateFormat, null, System.Globalization.DateTimeStyles.None, out dateSelect))
+            if (DateTime.TryParseExact(selectedDate, dateFormat, null, System.Globalization.DateTimeStyles.None, out dateSelect))
             {
+                List<MotorcyclesToClient> mots = _context.MotorcyclesToClient
+      .ToList();
+                var motoClIds = mots.Select(m => m.IdMotoCl).ToList();
                 List<RepairRequests> repairRequestsToday = _context.RepairRequests
-                .Where(r => r.IdMechanic == loginMechanic.IdMechanic && r.DateRequest.HasValue && r.DateRequest.Value.Date == dateSelect.Date)
+                .Where(r => r.IdMechanic == loginMechanic.IdMechanic && r.DateRequest.HasValue && r.DateRequest.Value.Date == dateSelect.Date && motoClIds.Contains((int)r.IdMotoCl))
                 .ToList();
-            
-            return View("~/Views/Mechanic/AccountMechanic.cshtml", repairRequestsToday);  // Use a partial view to render the result
+                if(repairRequestsToday.Count > 0) { 
+                var repairRequestsView = repairRequestsToday.Select(r => new ViewMechanicAccount
+                {
+                    IdRequest = r.IdRequest,
+                    ModelMotoCl = r.IdMotoClNavigation?.Model, // Убедитесь, что у вас есть свойство Name в MotorcyclesToClient
+                    nameCl= r.IdMotoClNavigation != null ? _context.Clients.Where(c => c.IdClient ==
+                r.IdMotoClNavigation.IdClient).Select(c => c.Fullname).FirstOrDefault() : null,
+                    Status = r.Status,
+                    Problem = r.Problem,
+                    Report = r.Report,
+                    Places = r.Places,
+                    Photo = r.Photo,
+                    IdMechanic = r.IdMechanic,
+                    DateRequest = r.DateRequest,
+                    DateRequestEnd = r.DateRequestEnd
+                }).ToList();
+               
+                return View("~/Views/Mechanic/_RepairRequestsList.cshtml", repairRequestsView);  // Use a partial view to render the result
+                }
+                return View("~/Views/Mechanic/_RepairRequestsList.cshtml");
             }
             else { 
-            return View("~/Views/Mechanic/AccountMechanic.cshtml");
+            return View("~/Views/Mechanic/_RepairRequestsList.cshtml");
             }
         }
         // [HttpPost]

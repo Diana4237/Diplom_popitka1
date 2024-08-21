@@ -160,23 +160,31 @@ input[type="radio"] {
             <button id="btnPrev" type="button">Предыдущий</button>
             <button id="btnNext" type="button">Следующий</button>
             <div id="divCal"></div>
+            <input type="hidden" name="dateChoicen" id="dateChoicen">
             
         </div>
     </div>
     <div class="block" style="background-color: #90ee90;">
-
+        
         <form id="noteForm" method="post" action="@Url.Action("AccountMechanic")">
                 <input type="hidden" name="requestId" id="requestId">
-            <input type="hidden" name="dateChoicen" id="dateChoicen">
+            <div id="selectedDateDisplay"></div>
             <div class="radio-group" id="repairRequestsContainer">
-                <div id="selectedDateDisplay"></div>
-                @foreach (var request in Model)
+                
+               @* @if (Model != null && Model.Any())
                 {
+                  @foreach (var request in Model)
+                  {
                     <label>
                         <input type="radio" name="option" value="@request.IdRequest" onclick="showNoteField(@request.IdRequest)">
                         @request.ModelMotoCl
                     </label>
+                  }
                 }
+                else
+                {
+                <p>Нет записей</p>
+                }*@
                 </div>
                 <div id="noteField" class="note-field" style="display: none;">
                     <h3>Заметки</h3>

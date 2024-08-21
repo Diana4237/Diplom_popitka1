@@ -28,16 +28,16 @@
         tile.addEventListener('click', (event) => {
             // Получить значение data-value плитки
             const value = event.target.getAttribute('data-value');
-
+            const name = tile.querySelector('img').getAttribute('title');
             // Если чекбокс уже установлен, снимите его и удалите значение из массива
             if (tile.querySelector('input[type=checkbox]').checked) {
                 tile.querySelector('input[type=checkbox]').checked = false;
-                selectedValues.splice(selectedValues.indexOf(value), 1);
+                selectedValues.splice(selectedValues.indexOf(name), 1);
             }
             // В противном случае установите флажок и добавьте значение в массив
             else {
                 tile.querySelector('input[type=checkbox]').checked = true;
-                selectedValues.push(value);
+                selectedValues.push(name);
             }
         });
     });
@@ -48,12 +48,22 @@
         // Предотвратить отправку формы по умолчанию
         event.preventDefault();
 
+        // Создать строку с именами выбранных мест
+        const selectedNames = selectedValues.map(item => item.name).join(', ');
+
         // Установить скрытое поле ввода со значениями data-value
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'selectedValues';
-        input.value = selectedValues.join(',');
-        form.appendChild(input);
+        const inputValues = document.createElement('input');
+        inputValues.type = 'hidden';
+        inputValues.name = 'selectedValues';
+        inputValues.value = selectedValues.map(item => item.value).join(',');
+        form.appendChild(inputValues);
+
+        // Установить скрытое поле ввода со строкой имен
+        const inputNames = document.createElement('input');
+        inputNames.type = 'hidden';
+        inputNames.name = 'selectedNames';
+        inputNames.value = selectedNames;
+        form.appendChild(inputNames);
 
         // Отправить форму
         form.submit();
@@ -158,7 +168,7 @@
                                 var base64 = Convert.ToBase64String(place.Photo);
                                 var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
                                 <a href="#" class="tile" data-value="@place.IdPlace">
-                                    <img src="@imgSrc" alt="@place.Name" title="@place.Name">
+                                    <img src="@imgSrc" alt="@place.Name" title="@place.Name" data-name="@place.Name">
                                     <input type="checkbox" name="places" value="@place.IdPlace">
                                 </a>
                             }

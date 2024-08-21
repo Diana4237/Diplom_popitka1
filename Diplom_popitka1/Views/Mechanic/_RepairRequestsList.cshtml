@@ -1,0 +1,28 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<ViewMechanicAccount>
+@{
+    Layout = null;
+}
+<input type="hidden" name="dateChoicen" id="dateChoicen">
+<div>
+    @if (Model != null && Model.Any())
+    {
+        @foreach (var request in Model)
+        {
+            <label>
+                <input type="radio" name="option" value="@request.IdRequest" onclick="showNoteField(@request.IdRequest)">
+                @request.ModelMotoCl, @request.nameCl
+            </label>
+        }
+    }
+    else
+    {
+        <p>Нет записей</p>
+        <button type="button" class="btn btn-primar" style=" background-color: #F98404;" onclick="location.href = '@Url.Action("NewRequests",
+    "Mechanic")'">
+            Добавить заявку
+        </button>
+    }
+</div>

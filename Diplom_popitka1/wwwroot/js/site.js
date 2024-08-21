@@ -2,33 +2,25 @@
 
 function selectDate(day, month, year) {
     // Формируем строку с датой
-    selectedDate = day.toString().padStart(2, '0') + '-' + (month + 1).toString().padStart(2, '0') + '-' + year;
+    var selectedDate = day.toString().padStart(2, '0') + '-' + (month + 1).toString().padStart(2, '0') + '-' + year;
 
     // Выводим выбранную дату в элемент на странице (например, с id="selectedDateDisplay")
     document.getElementById('selectedDateDisplay').innerText = "Вы выбрали дату: " + selectedDate;
-
-    fetch('/Mechanic/RequestsInThisDay', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
+    $.ajax({
+        url: '/Mechanic/RequestsInThisDay', // URL контроллера
+        type: 'POST',
+        data: { selectedDate: selectedDate }, // Отправка значения строки
+        success: function (response) {
+            
+                // Замените содержимое div с id="selectedDateDisplay"
+            $('#repairRequestsContainer').html(response);
         },
-        body: JSON.stringify({ date: selectedDate })
-    })
-        .then(response => {
-            // Проверяем статус ответа
-            if (!response.ok) {
-                throw new Error('Ошибка при отправке данных: ' + response.statusText);
-            }
-            return response.text(); // Или response.json() в зависимости от того, что возвращает сервер
-        })
-        .then(html => {
-            // Выводим полученный HTML в нужный контейнер
-            document.getElementById('repairRequestsContainer').innerHTML = html;
-        })
-        .catch(error => {
-            // Логируем ошибки для отладки
-            console.error('Ошибка при получении ответа от сервера:', error);
-        });
+        error: function (error) {
+            // Обработка ошибки
+            console.error(error);
+        }
+    });
+    
 }
 
 
@@ -66,30 +58,7 @@ function selectDate(day, month, year) {
 //}
 
 
-function sendDateToController(selectedDate) {
-    fetch('/Mechanic/RequestsInThisDay', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ date: selectedDate }) 
-    })
-        .then(response => {
-            // Проверяем статус ответа
-            if (!response.ok) {
-                throw new Error('Ошибка при отправке данных: ' + response.statusText);
-            }
-            return response.text(); // Или response.json() в зависимости от того, что возвращает сервер
-        })
-        .then(html => {
-            // Выводим полученный HTML в нужный контейнер
-            document.getElementById('repairRequestsContainer').innerHTML = html;
-        })
-        .catch(error => {
-            // Логируем ошибки для отладки
-            console.error('Ошибка при получении ответа от сервера:', error);
-        });
-}
+
 //выбираем даты
 
 
