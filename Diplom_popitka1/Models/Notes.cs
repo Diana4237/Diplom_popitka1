@@ -12,7 +12,7 @@ namespace Diplom_popitka1.Models
         public int IdNote { get; set; }
         public int? IdRequest { get; set; }
         public string Content { get; set; }
-        public byte[] Execution { get; set; }
+        public byte[]? Execution { get; set; }
         public DateTime? DateTime { get; set; }
         public int? IdMechanic { get; set; }
 

@@ -166,7 +166,7 @@ input[type="radio"] {
     </div>
     <div class="block" style="background-color: #90ee90;">
         
-        <form id="noteForm" method="post" action="@Url.Action("AccountMechanic")">
+       @* <form id="noteForm" method="post" action="@Url.Action("AccountMechanic")">*@
                 <input type="hidden" name="requestId" id="requestId">
             <div id="selectedDateDisplay"></div>
             <div class="radio-group" id="repairRequestsContainer">
@@ -185,19 +185,17 @@ input[type="radio"] {
                 {
                 <p>Нет записей</p>
                 }*@
-                </div>
-                <div id="noteField" class="note-field" style="display: none;">
+            </div>
+                @*<div id="noteField" class="note-field" style="display: none;">
                     <h3>Заметки</h3>
-                    @*<label>
-                        <input type="checkbox" id="importantNote"> Важная заметка
-                    </label>*@
+                   
                     <br>
                     <textarea id="noteInput" placeholder="Введите вашу заметку здесь..." rows="4" cols="50"></textarea>
                     <br>
                     <button onclick="saveNote()">Сохранить</button>
-                </div>
+                </div>*@
                        
-    </form>
+  @*  </form>*@
  
     </div>
 </div>

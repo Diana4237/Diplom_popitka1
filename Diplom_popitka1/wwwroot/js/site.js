@@ -1,11 +1,43 @@
 ﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 
+
+function saveNote(event) {
+    if (event) {
+        event.preventDefault(); // предотвращает перезагрузку страницы
+    }
+    var requestId = $('input[name="requestId"]:checked').val();
+    var note = $('#noteInput').val();
+
+    $.ajax({
+        url: '@Url.Action("SaveNote", "Mechanic")',
+        type: 'POST',
+        data: {
+            requestId: requestId,
+            note: note
+        },
+        success: function (response) {
+            if (response.success) {
+                //alert('Заметка успешно сохранена!');
+                $('#noteInput').val(''); // Очистить поле заметки
+            } else {
+                //alert('Ошибка при сохранении заметки.');
+            }
+        },
+        error: function () {
+            alert('Произошла ошибка при отправке запроса.');
+        }
+    });
+}
+
+
+//выбираем даты
 function selectDate(day, month, year) {
     // Формируем строку с датой
     var selectedDate = day.toString().padStart(2, '0') + '-' + (month + 1).toString().padStart(2, '0') + '-' + year;
 
     // Выводим выбранную дату в элемент на странице (например, с id="selectedDateDisplay")
     document.getElementById('selectedDateDisplay').innerText = "Вы выбрали дату: " + selectedDate;
+
     $.ajax({
         url: '/Mechanic/RequestsInThisDay', // URL контроллера
         type: 'POST',
@@ -22,46 +54,6 @@ function selectDate(day, month, year) {
     });
     
 }
-
-
-//var selectedDate = '';
-
-//// Функция для получения выбранной даты
-//function selectDate(day, month, year) {
-//    // Формируем строку с датой
-//    selectedDate = `${day.toString().padStart(2, '0')}-${(month + 1).toString().padStart(2, '0')}-${year}`;
-
-//    // Выводим выбранную дату в элемент на странице (например, с id="selectedDateDisplay")
-//    document.getElementById('selectedDateDisplay').innerText = "Вы выбрали дату: " + selectedDate;
-//    fetch('/Mechanic/RequestsInThisDay', {
-//        method: 'POST',
-//        headers: {
-//            'Content-Type': 'application/json'
-//        },
-//        body: JSON.stringify({ date: selectedDate })
-//    })
-//        .then(response => {
-//            // Проверяем статус ответа
-//            if (!response.ok) {
-//                throw new Error('Ошибка при отправке данных: ' + response.statusText);
-//            }
-//            return response.text(); // Или response.json() в зависимости от того, что возвращает сервер
-//        })
-//        .then(html => {
-//            // Выводим полученный HTML в нужный контейнер
-//            document.getElementById('repairRequestsContainer').innerHTML = html;
-//        })
-//        .catch(error => {
-//            // Логируем ошибки для отладки
-//            console.error('Ошибка при получении ответа от сервера:', error);
-//        });
-//}
-
-
-
-//выбираем даты
-
-
 
 
 //календарь создаем
@@ -232,17 +224,11 @@ function getId(id) {
 
 function showNoteField() {
     document.getElementById('noteField').style.display = 'block';
+    //document.getElementById('dateChoicen').value = $('#selectedDateDisplay').text().split(':')[1].trim();
+   
 }
 
-function saveNote() {
-    const important = document.getElementById('importantNote').checked;
-    const note = document.getElementById('noteInput').value;
 
-    alert(`Заметка сохранена! Важная: ${important}\nСодержимое: ${note}`);
-
-    document.getElementById('noteInput').value = '';
-    document.getElementById('importantNote').checked = false;
-}
 //function filterRequestsByDate(date) {
 //    const form = document.getElementById('noteForm');
 //    form.submit();

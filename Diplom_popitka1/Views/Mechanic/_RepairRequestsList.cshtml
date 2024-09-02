@@ -5,14 +5,18 @@
 @{
     Layout = null;
 }
-<input type="hidden" name="dateChoicen" id="dateChoicen">
+
 <div>
+    <form id="noteForm" method="post" action="@Url.Action("SaveNote","Mechanic")">
+               @* <input type="hidden" name="requestId" id="requestId">*@
+                @*<input type="hidden" name="dateChoicen" id="dateChoicen">*@
+            <div id="selectedDateDisplay"></div>
     @if (Model != null && Model.Any())
     {
         @foreach (var request in Model)
         {
             <label>
-                <input type="radio" name="option" value="@request.IdRequest" onclick="showNoteField(@request.IdRequest)">
+                    <input type="radio" name="requestId" id="requestId" value="@request.IdRequest" onclick="showNoteField(@request.IdRequest)">
                 @request.ModelMotoCl, @request.nameCl
             </label>
         }
@@ -20,9 +24,19 @@
     else
     {
         <p>Нет записей</p>
-        <button type="button" class="btn btn-primar" style=" background-color: #F98404;" onclick="location.href = '@Url.Action("NewRequests",
+        <button type="button" class="btn btn-primar" style=" background-color: #F98404;position:relative;" onclick="location.href = '@Url.Action("NewRequests",
     "Mechanic")'">
             Добавить заявку
         </button>
     }
+    <div id="noteField" class="note-field" style="display: none;">
+        <h3>Заметки</h3>
+
+        <br>
+        <textarea id="noteInput" name="noteInput" placeholder="Введите вашу заметку здесь..." rows="4" cols="50"></textarea>
+        <br>
+        <button type="submit">Сохранить</button>
+            @*onclick="saveNote()"*@
+    </div>
+    </form>
 </div>

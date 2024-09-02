@@ -91,7 +91,7 @@ namespace Diplom_popitka1.Controllers
             }
             return View("~/Views/Mechanic/MyRequests.cshtml");
         }
-        //public IActionResult SaveNote() { }
+       
         public IActionResult AccountMechanic()
         {
             foreach (var entity in _context.ChangeTracker.Entries())
@@ -171,17 +171,71 @@ namespace Diplom_popitka1.Controllers
             return View("~/Views/Mechanic/_RepairRequestsList.cshtml");
             }
         }
-        // [HttpPost]
-        // public IActionResult RequestsInThisDay([FromBody] DateTime date)
-        // {
-        //     ViewBag.dateSelected = "fgh" + date;
-        //     var serializedMechanic = HttpContext.Session.GetString("MechanicLogin");
-        //     var loginMechanic = serializedMechanic != null ? JsonConvert.DeserializeObject<Mechanics>(serializedMechanic) : null;
-        //     ViewBag.name = loginMechanic.Fullname; ViewBag.tel = loginMechanic.Telephone;
-        //     List<RepairRequests> repairRequestsToday = _context.RepairRequests
-        //.Where(r => r.IdMechanic == loginMechanic.IdMechanic && r.DateRequest.HasValue && r.DateRequest.Value.Date == date.Date)
-        //.ToList();
-        //     return View("~/Views/Mechanic/AccountMechanic.cshtml", repairRequestsToday);
-        // }
+        //[HttpPost]
+        //public IActionResult SaveNote(string requestId, string noteInput) 
+        //{
+        //    var serializedMechanic = HttpContext.Session.GetString("MechanicLogin");
+        //    var loginMechanic = serializedMechanic != null ? JsonConvert.DeserializeObject<Mechanics>(serializedMechanic) : null;
+
+        //    if (string.IsNullOrEmpty(requestId) && noteInput.Length!=0 && 
+        //        string.IsNullOrEmpty(noteInput))
+        //    {
+        //        int id = int.Parse(requestId);
+        //        string not = noteInput;
+        //        //try { 
+        //        //    // Создайте объект Note
+        //        //    var newNote = new Notes
+        //        //    {
+        //        //        IdRequest = int.Parse(requestId),
+        //        //        Content = noteInput,
+        //        //        IdMechanic = loginMechanic.IdMechanic,
+        //        //        DateTime = DateTime.Now,
+        //        //        Execution=null,
+
+        //        //    };
+
+        //        //_context.Notes.Add(newNote);
+        //        //_context.SaveChanges();
+        //        //}
+        //        //catch 
+        //        //{ 
+
+        //        //}
+               
+        //    }
+        //    return View();
+        //}
+        [HttpPost]
+        public JsonResult SaveNote(string requestId, string noteInput)
+        {
+            var serializedMechanic = HttpContext.Session.GetString("MechanicLogin");
+            var loginMechanic = serializedMechanic != null ? JsonConvert.DeserializeObject<Mechanics>(serializedMechanic) : null;
+
+            // Логика для сохранения заметки в базу данных
+            try
+            {
+                // Создайте объект Note
+                var newNote = new Notes
+                {
+                    IdRequest = int.Parse(requestId),
+                    Content = noteInput,
+                    IdMechanic = loginMechanic.IdMechanic,
+                    DateTime = DateTime.Now,
+                    Execution = null,
+
+                };
+
+                _context.Notes.Add(newNote);
+                _context.SaveChanges();
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, errorMessage = ex.Message });
+            }
+
+            
+        }
+
     }
 }
