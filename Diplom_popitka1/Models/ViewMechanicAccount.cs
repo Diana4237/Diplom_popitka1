@@ -14,5 +14,6 @@
         public int? IdMechanic { get; set; }
         public DateTime? DateRequest { get; set; }
         public DateTime? DateRequestEnd { get; set; }
+        public List<Notes> notes { get; set; }
     }
 }

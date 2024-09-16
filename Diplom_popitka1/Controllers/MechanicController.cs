@@ -171,40 +171,7 @@ namespace Diplom_popitka1.Controllers
             return View("~/Views/Mechanic/_RepairRequestsList.cshtml");
             }
         }
-        //[HttpPost]
-        //public IActionResult SaveNote(string requestId, string noteInput) 
-        //{
-        //    var serializedMechanic = HttpContext.Session.GetString("MechanicLogin");
-        //    var loginMechanic = serializedMechanic != null ? JsonConvert.DeserializeObject<Mechanics>(serializedMechanic) : null;
-
-        //    if (string.IsNullOrEmpty(requestId) && noteInput.Length!=0 && 
-        //        string.IsNullOrEmpty(noteInput))
-        //    {
-        //        int id = int.Parse(requestId);
-        //        string not = noteInput;
-        //        //try { 
-        //        //    // Создайте объект Note
-        //        //    var newNote = new Notes
-        //        //    {
-        //        //        IdRequest = int.Parse(requestId),
-        //        //        Content = noteInput,
-        //        //        IdMechanic = loginMechanic.IdMechanic,
-        //        //        DateTime = DateTime.Now,
-        //        //        Execution=null,
-
-        //        //    };
-
-        //        //_context.Notes.Add(newNote);
-        //        //_context.SaveChanges();
-        //        //}
-        //        //catch 
-        //        //{ 
-
-        //        //}
-               
-        //    }
-        //    return View();
-        //}
+       
         [HttpPost]
         public JsonResult SaveNote(string requestId, string noteInput)
         {
@@ -235,6 +202,19 @@ namespace Diplom_popitka1.Controllers
             }
 
             
+        }
+        [HttpPost]
+        public IActionResult NotesInThisRequest(int requestId)
+        {
+            var serializedMechanic = HttpContext.Session.GetString("MechanicLogin");
+            var loginMechanic = serializedMechanic != null ? JsonConvert.DeserializeObject<Mechanics>(serializedMechanic) : null;
+            List<Notes> notesByRequests = _context.Notes
+               .Where(r => r.IdMechanic == loginMechanic.IdMechanic && r.IdRequest== requestId)
+               .ToList();
+            if(notesByRequests.Count != 0) { 
+            return PartialView("~/Views/Mechanic/NotesOnRequest.cshtml", notesByRequests);
+            }
+            return PartialView("~/Views/Mechanic/NotesOnRequest.cshtml");
         }
 
     }
