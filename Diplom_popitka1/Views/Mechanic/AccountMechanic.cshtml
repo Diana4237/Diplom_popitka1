@@ -142,9 +142,9 @@ input[type="radio"] {
 <p><strong style="margin-left:20px;">@ViewData["tel"]</strong></p>
 
 <div class="mcontainer">
-    <div class="block" style="background-color: #add8e6;">
+    <div class="block" style="background-color: #F98404; border: 5px solid black ;">
        @* <div id="calendar"></div>*@
-        <div class="calendar-wrapper">
+        <div class="calendar-wrapper" style="border:5px solid black;">
             <button id="btnPrev" type="button">Предыдущий</button>
             <button id="btnNext" type="button">Следующий</button>
             <div id="divCal"></div>
@@ -152,7 +152,7 @@ input[type="radio"] {
             
         </div>
     </div>
-    <div class="block" style="background-color: #90ee90;">
+    <div class="block" style="background-color: black;">
                 <input type="hidden" name="requestId" id="requestId">
             <div id="selectedDateDisplay"></div>
             <div class="radio-group" id="repairRequestsContainer"></div>

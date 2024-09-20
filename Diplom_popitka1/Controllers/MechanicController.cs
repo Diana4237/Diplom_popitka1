@@ -216,6 +216,42 @@ namespace Diplom_popitka1.Controllers
             }
             return PartialView("~/Views/Mechanic/NotesOnRequest.cshtml");
         }
+        public IActionResult DelNote(int id, DateTime date, int request) 
+        {
+            var note = _context.Notes.Find(id);
+            if (note != null)
+            {
+                _context.Notes.Remove(note);
+                _context.SaveChanges();
+            }
+            List<Notes> notes = _context.Notes
+            .Where(m => m.IdRequest == request&& m.DateTime==date)
+            .ToList();
+            if (notes.Count != 0)
+            {
+                return PartialView("~/Views/Mechanic/NotesOnRequest.cshtml", notes);
+            }
+            else {
+            return PartialView("~/Views/Mechanic/NotesOnRequest.cshtml");
+            }
+        }
+        public IActionResult EditNote(int IdNote, DateTime date, int request,string inp)
+        {
+            var note = _context.Notes.Find(IdNote);
+            if (note != null)
+            {
+                note.Content = inp;
+                _context.SaveChanges();
+            }
+            List<Notes> notes = _context.Notes
+            .Where(m => m.IdRequest == request && m.DateTime == date)
+            .ToList();
+            if (notes.Count != 0)
+            {
+                return PartialView("~/Views/Mechanic/NotesOnRequest.cshtml", notes);
+            }
+            return PartialView("~/Views/Mechanic/NotesOnRequest.cshtml");
+        }
 
     }
 }

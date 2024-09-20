@@ -5,17 +5,21 @@
 @{
     Layout = null;
 }
+<style>
+    .custom-radio{
+        color: #F98404;
+    }
 
+   
+</style>
 <div>
     <form id="noteForm" method="post" action="@Url.Action("SaveNote","Mechanic")">
-               @* <input type="hidden" name="requestId" id="requestId">*@
-                @*<input type="hidden" name="dateChoicen" id="dateChoicen">*@
-            <div id="selectedDateDisplay"></div>
+        <div id="selectedDateDisplay" ></div>
     @if (Model != null && Model.Any())
     {
         @foreach (var request in Model)
         {
-            <label>
+                <label class="custom-radio">
                     <input type="radio" name="requestId" id="requestId" value="@request.IdRequest" onclick="showNoteField(@request.IdRequest)">
                 @request.ModelMotoCl, @request.nameCl
             </label>
@@ -35,7 +39,7 @@
         <br>
         <textarea id="noteInput" name="noteInput" placeholder="Введите вашу заметку здесь..." rows="4" cols="50"></textarea>
         <br>
-        <button type="submit">Сохранить</button>
+            <button type="submit" class="btn btn-primar" style=" background-color: #F98404;position:relative;">Сохранить</button>
             @*onclick="saveNote()"*@
     </div>
     </form>

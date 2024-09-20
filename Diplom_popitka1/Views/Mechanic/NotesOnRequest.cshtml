@@ -5,9 +5,39 @@
 @{
     Layout = null;
 }
-<ul>
+<style>
+    .btn-delete {
+        background:none;
+        top: 4px;
+        right: 4px;
+        border: none;
+        padding: 2px;
+    }
+
+        .btn-delete:hover {
+            background: #F98404; /* Мен`яем фон на в о вашранжевый CSS при наведении */
+        }
+
+        .btn-delete img {
+            width: 20px;
+            height: 20px;
+        }
+</style>
+<form action="@Url.Action("EditNote","Mechanic")" method="post">
     @foreach(var note in Model)
     {
-        <li> @note.Content</li>
+        <input type="hidden" name="IdNote" value="@note.IdNote" />
+        <input type="hidden" name="date" value="@note.DateTime" />
+        <input type="hidden" name="request" value="@note.IdRequest" />
+        <textarea value="@note.Content" name="inp" rows="1" cols="50">@note.Content</textarea>
+    <button type="submit" class="btn btn-danger btn-sm btn-delete">
+        <img src="~/images/edit.png" alt="Изменить" />
+    </button>
+    <button type="button" class="btn btn-danger btn-sm btn-delete" onclick="location.href = '@Url.Action("DelNote", "Mechanic", new { id = @note.IdNote,date=note.DateTime,request=note.IdRequest })'">
+        <img src="~/images/trashCan.png" alt="Удалить" />
+    </button>
+    
+        <br />
+        
     }
-</ul>
+</form>

@@ -37,7 +37,7 @@ function selectDate(day, month, year) {
 
     // Выводим выбранную дату в элемент на странице (например, с id="selectedDateDisplay")
     document.getElementById('selectedDateDisplay').innerText = "Вы выбрали дату: " + selectedDate;
-
+    document.getElementById('selectedDateDisplay').style.color = "white";
     $.ajax({
         url: '/Mechanic/RequestsInThisDay', // URL контроллера
         type: 'POST',
