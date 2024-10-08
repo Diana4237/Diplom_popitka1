@@ -5,7 +5,7 @@ namespace Diplom_popitka1.Controllers
 {
     public class StatusController : Controller
     {
-       public List<string> AllStatuses=new List<string>(new[] {
+        public List<string> AllStatuses = new List<string>(new[] {
         "Диагностика",
         "Оценка стоимости",
         "Отправлено на утверждение клиентом",
@@ -16,7 +16,7 @@ namespace Diplom_popitka1.Controllers
         "Гарантия"
     });
         private readonly diplom_popitca1Context _context;
-        public StatusController(diplom_popitca1Context context) 
+        public StatusController(diplom_popitca1Context context)
         {
             _context = context;
         }
@@ -24,7 +24,7 @@ namespace Diplom_popitka1.Controllers
         {
             return View();
         }
-        
+
         public IActionResult ChangeStatus(int id, string direction)
         {
             var request = _context.RepairRequests.Find(id);

@@ -12,6 +12,7 @@ namespace Diplom_popitka1.Models
         public RepairRequests()
         {
             Notes = new HashSet<Notes>();
+            Reviews = new HashSet<Reviews>();
         }
 
         public int IdRequest { get; set; }
@@ -28,5 +29,6 @@ namespace Diplom_popitka1.Models
         public virtual Mechanics IdMechanicNavigation { get; set; }
         public virtual MotorcyclesToClient IdMotoClNavigation { get; set; }
         public virtual ICollection<Notes> Notes { get; set; }
+        public virtual ICollection<Reviews> Reviews { get; set; }
     }
 }

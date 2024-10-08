@@ -72,16 +72,7 @@
             <label class="labelOrange">Предполагаемые места поломки:</label>
             <label class="middle-text">@request.Places</label>
             <br>
-            @*<button class="button" onclick="location.href='@Url.Action("UpdateMyRequest", "Mechanic",
-                new { requestId = request.IdRequest })'">
-                Обновить статус
-            </button>*@
-
-
-          
-
-
-
+           
             <span class="non-clickable-button">Обновить статус</span>
 
             <form method="post" action="@Url.Action("ChangeStatus", "Status")">

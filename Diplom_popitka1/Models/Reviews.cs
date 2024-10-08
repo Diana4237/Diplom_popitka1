@@ -7,16 +7,15 @@ using System.Collections.Generic;
 
 namespace Diplom_popitka1.Models
 {
-    public partial class Notes
+    public partial class Reviews
     {
-        public int IdNote { get; set; }
+        public int IdReview { get; set; }
+        public string TextReview { get; set; }
+        public int? IdClient { get; set; }
+        public int? Stars { get; set; }
         public int? IdRequest { get; set; }
-        public string Content { get; set; }
-        public bool? Execution { get; set; }
-        public DateTime? DateTime { get; set; }
-        public int? IdMechanic { get; set; }
 
-        public virtual Mechanics IdMechanicNavigation { get; set; }
+        public virtual Clients IdClientNavigation { get; set; }
         public virtual RepairRequests IdRequestNavigation { get; set; }
     }
 }

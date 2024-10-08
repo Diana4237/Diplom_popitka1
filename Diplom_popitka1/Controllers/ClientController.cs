@@ -71,7 +71,7 @@ namespace Diplom_popitka1.Controllers
         public IActionResult AccountClient(string mots)
         {
             var motsList = JsonConvert.DeserializeObject<List<MotorcyclesToClient>>(mots);
-           // HttpContext.Session.SetString("MyMotorcycles", Newtonsoft.Json.JsonConvert.SerializeObject(motsList));
+            // HttpContext.Session.SetString("MyMotorcycles", Newtonsoft.Json.JsonConvert.SerializeObject(motsList));
             return View(motsList);
         }
         public IActionResult AccountCl()
@@ -94,13 +94,14 @@ namespace Diplom_popitka1.Controllers
         }
         public IActionResult AddMoto()
         {
-			//стереть из сессии "ThisMotorcycle"
-			var serializedMot = HttpContext.Session.GetString("ThisMotorcycle");
-			var Mot = serializedMot != null ? JsonConvert.DeserializeObject<MotorcyclesToClient>(serializedMot) : null;
-            if (Mot != null) { 
-            HttpContext.Session.Remove("ThisMotorcycle");
-			}
-			foreach (var entity in _context.ChangeTracker.Entries())
+            //стереть из сессии "ThisMotorcycle"
+            var serializedMot = HttpContext.Session.GetString("ThisMotorcycle");
+            var Mot = serializedMot != null ? JsonConvert.DeserializeObject<MotorcyclesToClient>(serializedMot) : null;
+            if (Mot != null)
+            {
+                HttpContext.Session.Remove("ThisMotorcycle");
+            }
+            foreach (var entity in _context.ChangeTracker.Entries())
             {
                 if (entity.Entity != null)
                 {
@@ -129,7 +130,6 @@ namespace Diplom_popitka1.Controllers
         }
         public IActionResult ThisMoto(int id)
         {
-            //int id
             foreach (var entity in _context.ChangeTracker.Entries())
             {
                 if (entity.Entity != null)
@@ -137,7 +137,6 @@ namespace Diplom_popitka1.Controllers
                     entity.Reload();
                 }
             }
-            // int selectedId = int.Parse(Request.Form["data-id"]);
             MotorcyclesToClient moto = _context.MotorcyclesToClient.FirstOrDefault(m => m.IdMotoCl == id);
             var models = _context.TakeMotoToWork.ToList();
             HttpContext.Session.SetString("Motorcycles", Newtonsoft.Json.JsonConvert.SerializeObject(models));
@@ -182,14 +181,14 @@ namespace Diplom_popitka1.Controllers
         [HttpPost]
         public IActionResult AddMoto(string model, string year, int mileage, IFormFile photo)
         {
-			foreach (var entity in _context.ChangeTracker.Entries())
-			{
-				if (entity.Entity != null)
-				{
-					entity.Reload();
-				}
-			}
-			var serializedClient = HttpContext.Session.GetString("ClientLogin");
+            foreach (var entity in _context.ChangeTracker.Entries())
+            {
+                if (entity.Entity != null)
+                {
+                    entity.Reload();
+                }
+            }
+            var serializedClient = HttpContext.Session.GetString("ClientLogin");
             var loginClient = serializedClient != null ? JsonConvert.DeserializeObject<Clients>(serializedClient) : null;
             if (photo != null && model.Length != 0 && year.Length != 0 && mileage != 0)
             {
@@ -210,7 +209,7 @@ namespace Diplom_popitka1.Controllers
           .Where(m => m.IdClient == loginClient.IdClient)
           .ToList();
                 ViewBag.name = loginClient.Fullname; ViewBag.tel = loginClient.Telephone;
-                // mymodel.MotocycleToClient = mots;
+                
                 return View("~/Views/Client/AccountClient.cshtml", mots);
             }
             else
@@ -260,8 +259,8 @@ namespace Diplom_popitka1.Controllers
                     Places = selectedNames,
                     Photo = Photo(photo),
                     IdMechanic = null,
-                    DateRequest=DateTime.Now,
-                    DateRequestEnd=null
+                    DateRequest = DateTime.Now,
+                    DateRequestEnd = null
                 };
                 try
                 {
@@ -275,7 +274,6 @@ namespace Diplom_popitka1.Controllers
                     return View(); // Возврат текущего представления с ошибками
                 }
             }
-            //string[] selectedValuesArray = selectedValues.Split(',');
             return View();
         }
 
@@ -295,7 +293,7 @@ namespace Diplom_popitka1.Controllers
             {
                 IdRequest = r.IdRequest,
                 nameMotoCl = r.IdMotoClNavigation?.Model, // Убедитесь, что у вас есть свойство Name в MotorcyclesToClient
-              
+
                 Status = r.Status,
                 Problem = r.Problem,
                 Report = r.Report,

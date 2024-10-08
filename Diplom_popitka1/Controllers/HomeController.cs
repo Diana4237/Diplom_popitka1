@@ -58,7 +58,7 @@ namespace Diplom_popitka1.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        //
+
         public IActionResult AuthButton_Click()
         {
             return View("~/Views/Home/AuthorizationWindow.cshtml");
@@ -102,16 +102,15 @@ namespace Diplom_popitka1.Controllers
                 else if (user.IdRole == 2)
                 {
                     ViewBag.love = "Пользователь не найден";
-                    
+
                     if (user != null && user.IdUser.HasValue)
                     {
                         var idUser = user.IdUser.Value;
-
                         var loginMechanic = _context.Mechanics.FirstOrDefault(mechanic => mechanic.IdMechanic == idUser);
 
-                        if (loginMechanic != null && loginMechanic.Telephone == tel)
+                        if (loginMechanic != null && loginMechanic?.Telephone == tel)
                         {
-                            
+
                             HttpContext.Session.SetString("MechanicLogin", Newtonsoft.Json.JsonConvert.SerializeObject(loginMechanic));
                             ViewData["name"] = loginMechanic.Fullname;
                             ViewData["tel"] = tel;

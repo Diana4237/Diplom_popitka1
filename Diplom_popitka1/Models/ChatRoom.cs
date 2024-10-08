@@ -17,6 +17,7 @@ namespace Diplom_popitka1.Models
 
         public int IdChatroom { get; set; }
         public int? IdClient { get; set; }
+        public string? LastMessage { get; set; }
 
         public virtual Clients IdClientNavigation { get; set; }
         public virtual ICollection<BlockRoom> BlockRoom { get; set; }

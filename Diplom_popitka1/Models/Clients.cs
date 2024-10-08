@@ -13,6 +13,7 @@ namespace Diplom_popitka1.Models
         {
             ChatRoom = new HashSet<ChatRoom>();
             MotorcyclesToClient = new HashSet<MotorcyclesToClient>();
+            Reviews = new HashSet<Reviews>();
         }
 
         public int IdClient { get; set; }
@@ -21,5 +22,6 @@ namespace Diplom_popitka1.Models
 
         public virtual ICollection<ChatRoom> ChatRoom { get; set; }
         public virtual ICollection<MotorcyclesToClient> MotorcyclesToClient { get; set; }
+        public virtual ICollection<Reviews> Reviews { get; set; }
     }
 }

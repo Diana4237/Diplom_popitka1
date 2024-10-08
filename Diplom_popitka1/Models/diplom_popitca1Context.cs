@@ -30,8 +30,10 @@ namespace Diplom_popitka1.Models
         public virtual DbSet<Notes> Notes { get; set; }
         public virtual DbSet<Places> Places { get; set; }
         public virtual DbSet<RepairRequests> RepairRequests { get; set; }
+        public virtual DbSet<Reviews> Reviews { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Services> Services { get; set; }
+        public virtual DbSet<SpareParts> SpareParts { get; set; }
         public virtual DbSet<TakeMotoToWork> TakeMotoToWork { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -104,6 +106,11 @@ namespace Diplom_popitka1.Models
                 entity.Property(e => e.IdChatroom).HasColumnName("id_chatroom");
 
                 entity.Property(e => e.IdClient).HasColumnName("id_client");
+
+                entity.Property(e => e.LastMessage)
+                    .HasColumnName("last_message")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
 
                 entity.HasOne(d => d.IdClientNavigation)
                     .WithMany(p => p.ChatRoom)
@@ -212,10 +219,6 @@ namespace Diplom_popitka1.Models
                     .HasColumnName("Date_Time")
                     .HasColumnType("datetime");
 
-                entity.Property(e => e.Execution)
-                    .HasMaxLength(1)
-                    .IsFixedLength();
-
                 entity.Property(e => e.IdMechanic).HasColumnName("id_mechanic");
 
                 entity.Property(e => e.IdRequest).HasColumnName("id_request");
@@ -285,6 +288,32 @@ namespace Diplom_popitka1.Models
                     .HasConstraintName("FK__RepairReq__id_mo__4AB81AF0");
             });
 
+            modelBuilder.Entity<Reviews>(entity =>
+            {
+                entity.HasKey(e => e.IdReview)
+                    .HasName("PK__Reviews__2F79F8C770B2E7AF");
+
+                entity.Property(e => e.IdReview).HasColumnName("id_review");
+
+                entity.Property(e => e.IdClient).HasColumnName("id_client");
+
+                entity.Property(e => e.IdRequest).HasColumnName("id_request");
+
+                entity.Property(e => e.TextReview)
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.IdClientNavigation)
+                    .WithMany(p => p.Reviews)
+                    .HasForeignKey(d => d.IdClient)
+                    .HasConstraintName("FK__Reviews__id_clie__6FE99F9F");
+
+                entity.HasOne(d => d.IdRequestNavigation)
+                    .WithMany(p => p.Reviews)
+                    .HasForeignKey(d => d.IdRequest)
+                    .HasConstraintName("FK__Reviews__id_requ__70DDC3D8");
+            });
+
             modelBuilder.Entity<Roles>(entity =>
             {
                 entity.HasKey(e => e.IdRole)
@@ -307,6 +336,26 @@ namespace Diplom_popitka1.Models
                 entity.Property(e => e.Cost).HasColumnType("decimal(18, 0)");
 
                 entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<SpareParts>(entity =>
+            {
+                entity.HasKey(e => e.IdPart)
+                    .HasName("PK__SparePar__09417A81869477D4");
+
+                entity.Property(e => e.IdPart).HasColumnName("id_part");
+
+                entity.Property(e => e.Cost).HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.NamePart)
+                    .HasColumnName("Name_part")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ProviderParts)
+                    .HasColumnName("Provider_parts")
                     .HasMaxLength(50)
                     .IsUnicode(false);
             });

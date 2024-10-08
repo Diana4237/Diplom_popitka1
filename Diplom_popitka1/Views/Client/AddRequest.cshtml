@@ -141,9 +141,11 @@
                 <td>
                    
                     <select name="moto">
+                        @if(motoList!=null){
                         @foreach (var mot in motoList)
                         {
                             <option value="@mot.IdMotoCl">@mot.Model</option>
+                        }
                         }
                     </select>
                     
@@ -163,6 +165,7 @@
                         <button id="btn_place">Можете указать где именно поломка?</button>
                         
                         <div class="dropdown-content">
+                            @if (places!=null){
                             @foreach (var place in places)
                             {
                                 var base64 = Convert.ToBase64String(place.Photo);
@@ -172,7 +175,7 @@
                                     <input type="checkbox" name="places" value="@place.IdPlace">
                                 </a>
                             }
-                           
+                            }
                         </div>
                     </div>
                 </td>

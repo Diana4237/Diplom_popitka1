@@ -184,6 +184,7 @@
                     <button type="submit" class="btn1">Сохранить</button>
                 </div>
             </form>
+    
             @section Scripts {
             @{
                     await Html.RenderPartialAsync("_ValidationScriptsPartial");
@@ -211,10 +212,10 @@
                                         <td> <label for="fullname" class="labelContainer">Марка:</label></td>
                                         <td>
                                             <select name="model" id="model">
-                                                @foreach (var modele in motoList)
+                                               @* @foreach (var modele in motoList)
                                                 {
                                                     <option>@modele.Model</option>
-                                                }
+                                                }*@
                                             </select>
                                         </td>
                                       

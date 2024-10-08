@@ -5,12 +5,9 @@
 @{
     ViewData["Title"] = "Акаунт";
 }
-@*@using Newtonsoft.Json
-@{
-    var serializedMyMoto = Context.Session.GetString("MyMotorcycles");
-    var motoList = serializedMyMoto != null ? JsonConvert.DeserializeObject<List<MotorcyclesToClient>>(serializedMyMoto) : null;
 
-}*@
+
+
 <h1 class="underline">@ViewBag.name</h1>
 <p><strong style="margin-left:20px;">@ViewBag.tel</strong></p>
 
