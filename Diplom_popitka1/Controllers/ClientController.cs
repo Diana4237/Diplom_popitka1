@@ -94,7 +94,13 @@ namespace Diplom_popitka1.Controllers
         }
         public IActionResult AddMoto()
         {
-            foreach (var entity in _context.ChangeTracker.Entries())
+			//стереть из сессии "ThisMotorcycle"
+			var serializedMot = HttpContext.Session.GetString("ThisMotorcycle");
+			var Mot = serializedMot != null ? JsonConvert.DeserializeObject<MotorcyclesToClient>(serializedMot) : null;
+            if (Mot != null) { 
+            HttpContext.Session.Remove("ThisMotorcycle");
+			}
+			foreach (var entity in _context.ChangeTracker.Entries())
             {
                 if (entity.Entity != null)
                 {
@@ -176,7 +182,14 @@ namespace Diplom_popitka1.Controllers
         [HttpPost]
         public IActionResult AddMoto(string model, string year, int mileage, IFormFile photo)
         {
-            var serializedClient = HttpContext.Session.GetString("ClientLogin");
+			foreach (var entity in _context.ChangeTracker.Entries())
+			{
+				if (entity.Entity != null)
+				{
+					entity.Reload();
+				}
+			}
+			var serializedClient = HttpContext.Session.GetString("ClientLogin");
             var loginClient = serializedClient != null ? JsonConvert.DeserializeObject<Clients>(serializedClient) : null;
             if (photo != null && model.Length != 0 && year.Length != 0 && mileage != 0)
             {

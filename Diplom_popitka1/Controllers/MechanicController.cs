@@ -252,6 +252,11 @@ namespace Diplom_popitka1.Controllers
             }
             return PartialView("~/Views/Mechanic/NotesOnRequest.cshtml");
         }
+        public IActionResult MessageMechanic()
+        {
+            return View("~/Views/Mechanic/MessageMechanic.cshtml");
+        }
 
-    }
+
+	}
 }

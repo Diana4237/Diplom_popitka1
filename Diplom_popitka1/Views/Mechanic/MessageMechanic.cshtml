@@ -1,5 +1,72 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@using Newtonsoft.Json
 @{
+    var serializedMechanic = Context.Session.GetString("MechanicLogin");
+    var loginClient = serializedMechanic != null ? JsonConvert.DeserializeObject<Mechanics>(serializedMechanic) : null;
+    var serializedMesages = Context.Session.GetString("Chats");
+    var Messages = serializedMesages != null ? JsonConvert.DeserializeObject < List<ChatRoom>>(serializedMesages) : null;
 }
+<style>
+   
+
+    .chat-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .chat-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #f5f5f5;
+        cursor: pointer;
+    }
+
+        .chat-item:hover {
+            background-color: #e0e0e0;
+        }
+
+    .chat-item-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #ccc;
+    }
+
+    .chat-item-info {
+        margin-left: 10px;
+    }
+
+    .chat-item-name {
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .chat-item-last-message {
+        font-size: 12px;
+        color: #888;
+    }
+</style>
+    <h1>Все чаты</h1>
+
+    <ul class="chat-list">
+        @if(Messages!=null){
+    @foreach (var chat in Messages)
+        {
+            <li class="chat-item" asp-action="Chat" asp-controller="Chat" asp-route-id="@chat.IdChatroom">
+                <div class="chat-item-avatar"></div>
+                <div class="chat-item-info">
+                    <div class="chat-item-name">@chat.IdClientNavigation.Fullname</div>
+                  @*  <div class="chat-item-last-message">Последнее сообщение: @chat.LastMessage</div>*@
+                </div>
+            </li>
+        }
+    }
+    </ul>
+

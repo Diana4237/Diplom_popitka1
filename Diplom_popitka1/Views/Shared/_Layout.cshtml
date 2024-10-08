@@ -84,12 +84,12 @@
                         </td>
 
                        
-                        <td style="text-align:center;">
+                       @* <td style="text-align:center;">
                             @if (ViewContext.RouteData.Values["action"].ToString() != "About_company")
                             {
                                 <button type="button" class="btn btn-primar" onclick="location.href = '@Url.Action("AddRequest", "Client")'">Подать заявку</button>
                             }
-                        </td>
+                        </td>*@
                     </tr>
                 </table>
 
